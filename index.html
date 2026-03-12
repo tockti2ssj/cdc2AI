@@ -3,15 +3,207 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ลงทะเบียนอบรมระบบ D506</title>
+  <title>ลงทะเบียนอบรมระบบ D506 - จ.อุดรธานี</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { fontFamily: { kanit: ['Kanit', 'sans-serif'] }, colors: { brand: { light: '#ccfbf1', DEFAULT: '#0d9488', dark: '#0f766e' } } } }
+    }
+  </script>
   <style>
-    body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
-    iframe { width: 100%; height: 100%; border: none; }
+    body { font-family: 'Kanit', sans-serif; background-color: #f8fafc; }
+    .tab-content { display: none; animation: fadeIn 0.3s ease-in-out; }
+    .tab-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    #global-loader { display: none; position: fixed; inset: 0; background: rgba(255, 255, 255, 0.9); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; }
+    .spinner { width: 50px; height: 50px; border: 5px solid #ccfbf1; border-top-color: #0d9488; border-radius: 50%; animation: spin 1s linear infinite; }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
   </style>
 </head>
-<body>
-  <!-- เปลี่ยน YOUR_WEB_APP_URL เป็นลิงก์ Google Apps Script ของคุณ -->
-  <iframe src="https://script.google.com/macros/s/AKfycbw0TmVv3BMEx6-2tty8vP51o8huCOu-GSO_bANH8-AeX7wKcyS8hsFapGk4o-dI_R_8/exec"></iframe>
+<body class="text-slate-800 pb-12">
+
+  <div id="global-loader">
+    <div class="spinner mb-4"></div>
+    <h3 class="text-xl font-medium text-brand text-center">กำลังประมวลผล...<br><span class="text-sm text-slate-500 font-normal">กรุณาอย่าปิดหน้าต่างนี้</span></h3>
+  </div>
+
+  <header class="bg-gradient-to-r from-blue-700 to-teal-600 text-white shadow-lg">
+    <div class="max-w-5xl mx-auto px-4 py-8 md:py-12">
+      <div class="flex flex-col md:flex-row items-center gap-6">
+        <div class="bg-white p-3 rounded-2xl shadow-md shrink-0">
+          <img src="https://i.ibb.co/3yb1bdhc/logo-moph.png" alt="โลโก้ สสจ." class="w-20 h-20 md:w-24 md:h-24 object-contain">
+        </div>
+        <div class="text-center md:text-left flex-1">
+          <h1 class="text-2xl md:text-3xl font-bold leading-tight mb-2 text-white">โครงการอบรมการรายงานโรคติดต่ออันตราย / โรคติดต่อที่ต้องเฝ้าระวัง</h1>
+          <h2 class="text-xl text-teal-100 font-medium mb-4">ด้วยระบบ D506 จังหวัดอุดรธานี ปีงบประมาณ 2569</h2>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start text-sm bg-black/20 p-3 rounded-lg inline-flex">
+            <span class="flex items-center gap-2"><i data-lucide="calendar" class="w-4 h-4 text-yellow-300"></i> 30 มีนาคม 2569</span>
+            <span class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-red-300"></i> ห้องทองกวาว ชั้น 2 สสจ.อุดรธานี</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 -mt-6">
+    <div class="bg-slate-100 p-2 rounded-2xl shadow-inner border border-slate-200 flex overflow-x-auto mb-6 relative z-10 gap-2">
+      <button onclick="switchTab('home')" id="tab-btn-home" class="flex-1 py-3 px-6 text-center font-medium bg-gradient-to-r from-teal-500 to-blue-600 text-white shadow-md rounded-xl transition-all whitespace-nowrap flex items-center justify-center gap-2">
+        <i data-lucide="home" class="w-5 h-5"></i> หน้าแรก
+      </button>
+      <button onclick="switchTab('registration')" id="tab-btn-registration" class="flex-1 py-3 px-6 text-center font-medium text-slate-600 hover:bg-white rounded-xl transition-all whitespace-nowrap flex items-center justify-center gap-2">
+        <i data-lucide="clipboard-edit" class="w-5 h-5"></i> ลงทะเบียน
+      </button>
+      <button onclick="switchTab('dashboard')" id="tab-btn-dashboard" class="flex-1 py-3 px-6 text-center font-medium text-slate-600 hover:bg-white rounded-xl transition-all whitespace-nowrap flex items-center justify-center gap-2">
+        <i data-lucide="bar-chart-3" class="w-5 h-5"></i> สรุปผล
+      </button>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg p-4 md:p-8 mb-8 border border-slate-100">
+      
+      <!-- TAB 0: LANDING PAGE -->
+      <div id="tab-home" class="tab-content active">
+        <div class="bg-[#0b1021] text-white rounded-2xl p-6 md:p-10 relative overflow-hidden shadow-2xl border border-[#1e293b]">
+          <div class="absolute top-0 left-0 w-72 h-72 bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+          <div class="relative z-10 text-center mb-10 border-2 border-cyan-400/50 rounded-2xl p-6 bg-[#0b1021]/60">
+            <h2 class="text-xl md:text-3xl font-bold leading-tight">โครงการอบรมการรายงานโรคติดต่ออันตราย /โรคติดต่อที่ต้องเฝ้าระวัง ด้วยระบบ D506</h2>
+            <div class="text-lg md:text-xl text-cyan-300 mt-2">จังหวัดอุดรธานี ปีงบประมาณ 2569</div>
+          </div>
+
+          <!-- วิทยากร 1 -->
+          <div class="relative z-10 border-2 border-cyan-500 rounded-2xl p-6 mb-10 bg-gradient-to-b from-cyan-900/20 to-transparent">
+            <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-[#0b1021] border-2 border-cyan-400 px-4 py-1 rounded-full text-cyan-300 font-bold">วิทยากร 1</div>
+            <div class="flex flex-col md:flex-row gap-6 items-center pt-2">
+              <div class="w-32 h-40 shrink-0 border-2 border-cyan-400 rounded-lg p-1 relative bg-slate-900">
+                <img src="https://i.ibb.co/kVDvz9ct/vit1.jpg" onerror="this.src='https://placehold.co/150x200?text=วิทยากร+1'" class="w-full h-full object-cover rounded">
+                <div class="absolute bottom-0 w-full bg-cyan-500 text-[#0b1021] text-center text-[10px] font-bold py-1">และคณะ</div>
+              </div>
+              <div class="flex-1 text-center md:text-left">
+                <h3 class="text-2xl font-bold">อ.กฤษณะ สุภาวงค์ <span class="text-lg font-normal">และคณะ</span></h3>
+                <p class="text-cyan-200/70 text-sm">จากสำนักงานป้องกันควบคุมโรคที่ 8 อุดรธานี</p>
+                <div class="mt-4 space-y-2 text-sm md:text-base">
+                  <p class="flex items-center gap-2"><i data-lucide="play" class="w-4 h-4 text-cyan-400"></i> การสอนเรื่อง การประยุกต์ใช้ AI กับการสอบสวนโรค</p>
+                  <p class="flex items-center gap-2"><i data-lucide="play" class="w-4 h-4 text-cyan-400"></i> นวัตกรรม Epi Analytic Pro</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- วิทยากร 2 -->
+          <div class="relative z-10 border-2 border-pink-500 rounded-2xl p-6 mb-10 bg-gradient-to-b from-pink-900/20 to-transparent">
+            <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-[#0b1021] border-2 border-pink-500 px-4 py-1 rounded-full text-pink-400 font-bold">วิทยากร 2</div>
+            <div class="flex flex-col md:flex-row gap-6 items-center pt-2">
+              <div class="w-32 h-40 shrink-0 border-2 border-pink-500 rounded-lg p-1 bg-slate-900">
+                <img src="https://i.ibb.co/84b5KCGH/vit2.jpg" onerror="this.src='https://placehold.co/150x200?text=วิทยากร+2'" class="w-full h-full object-cover rounded">
+              </div>
+              <div class="flex-1 text-center md:text-left">
+                <h3 class="text-2xl font-bold">อ.สุกรรณ์ โยธะคง</h3>
+                <p class="text-pink-200/70 text-sm">โรงพยาบาลน้ำโสม</p>
+                <p class="text-xs text-pink-400 mt-1 italic">เจ้าของช่อง TikTok ผู้ติดตามหลักแสน</p>
+                <div class="mt-4 space-y-2 text-sm md:text-base text-pink-50">
+                   <p class="flex items-center gap-2"><i data-lucide="play" class="w-4 h-4 text-pink-400"></i> การสร้างคลิปและเผยแพร่ด้วย AI</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="relative z-10 flex flex-col items-center gap-6 border-t border-slate-700 pt-8">
+            <div class="text-center space-y-2 text-cyan-100">
+              <p class="flex items-center justify-center gap-2"><i data-lucide="calendar" class="text-yellow-400"></i> 30 มีนาคม 2569</p>
+              <p class="flex items-center justify-center gap-2"><i data-lucide="map-pin" class="text-red-400"></i> ห้องทองกวาว ชั้น 2 สสจ.อุดรธานี</p>
+            </div>
+            <button onclick="switchTab('registration')" class="bg-gradient-to-r from-yellow-400 to-yellow-600 text-slate-900 font-bold py-4 px-10 rounded-full shadow-[0_0_20px_rgba(250,204,21,0.4)] hover:scale-105 transition-transform text-xl">ลงทะเบียนตอนนี้</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 1: FORM -->
+      <div id="tab-registration" class="tab-content">
+        <h3 class="text-xl font-semibold mb-6 border-b pb-4">แบบฟอร์มลงทะเบียน</h3>
+        <form id="regForm" onsubmit="submitForm(event)" class="space-y-4">
+          <input type="text" name="fullname" placeholder="ชื่อ-นามสกุล" required class="w-full p-3 border rounded-lg">
+          <input type="text" name="position" placeholder="ตำแหน่ง" required class="w-full p-3 border rounded-lg">
+          <input type="text" name="workplace" placeholder="สถานที่ปฏิบัติงาน" required class="w-full p-3 border rounded-lg">
+          <select name="district" required class="w-full p-3 border rounded-lg">
+            <option value="">-- เลือกอำเภอ --</option>
+            <option>เมืองอุดรธานี</option><option>กุดจับ</option><option>หนองวัวซอ</option><option>กุมภวาปี</option>
+            <option>โนนสะอาด</option><option>หนองหาน</option><option>ทุ่งฝน</option><option>ไชยวาน</option>
+            <option>ศรีธาตุ</option><option>วังสามหมอ</option><option>บ้านดุง</option><option>บ้านผือ</option>
+            <option>น้ำโสม</option><option>เพ็ญ</option><option>สร้างคอม</option><option>หนองแสง</option>
+            <option>นายูง</option><option>พิบูลรักษ์</option><option>กู่แก้ว</option><option>ประจักษ์ศิลปาคม</option>
+          </select>
+          <input type="email" name="email" placeholder="อีเมล" required class="w-full p-3 border rounded-lg">
+          <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="font-medium mb-2">ยืนยันการตอบรับ</p>
+            <label class="block"><input type="radio" name="attendance" value="สามารถเข้าร่วมอบรมได้" required> สามารถเข้าร่วมได้</label>
+            <label class="block mt-2"><input type="radio" name="attendance" value="ไม่สามารถเข้าร่วมอบรมได้" required> ไม่สามารถเข้าร่วมได้</label>
+          </div>
+          <button type="submit" class="w-full bg-brand text-white font-bold py-4 rounded-xl shadow-lg hover:bg-brand-dark transition-all">ส่งข้อมูลลงทะเบียน</button>
+        </form>
+      </div>
+
+      <!-- TAB 2: DASHBOARD -->
+      <div id="tab-dashboard" class="tab-content text-center">
+        <div class="grid grid-cols-3 gap-4 mb-8">
+          <div class="bg-blue-50 p-4 rounded-xl"><p class="text-sm">ลงทะเบียน</p><p id="stat-total" class="text-2xl font-bold">0</p></div>
+          <div class="bg-teal-50 p-4 rounded-xl"><p class="text-sm text-teal-600">เข้าร่วม</p><p id="stat-attending" class="text-2xl font-bold">0</p></div>
+          <div class="bg-red-50 p-4 rounded-xl"><p class="text-sm text-red-600">ไม่เข้าร่วม</p><p id="stat-not" class="text-2xl font-bold">0</p></div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead class="bg-slate-50 border-b"><tr><th class="p-3">ชื่อ</th><th class="p-3">สถานที่</th><th class="p-3">สถานะ</th></tr></thead>
+            <tbody id="participant-table" class="divide-y"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // ********* สำคัญ: ใส่ Web App URL ที่ได้จาก Google Apps Script ที่นี่ *********
+    const SCRIPT_URL = 'YOUR_WEB_APP_URL_HERE';
+
+    lucide.createIcons();
+    function switchTab(t){
+      document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));
+      document.querySelectorAll('button[id^="tab-btn-"]').forEach(e=>e.className="flex-1 py-3 px-6 text-center font-medium text-slate-600 hover:bg-white rounded-xl transition-all whitespace-nowrap flex items-center justify-center gap-2");
+      document.getElementById('tab-'+t).classList.add('active');
+      document.getElementById('tab-btn-'+t).className="flex-1 py-3 px-6 text-center font-medium bg-gradient-to-r from-teal-500 to-blue-600 text-white shadow-md rounded-xl transition-all whitespace-nowrap flex items-center justify-center gap-2";
+      if(t==='dashboard') loadDashboard();
+    }
+
+    async function submitForm(e){
+      e.preventDefault();
+      if(SCRIPT_URL.includes('YOUR_WEB_APP')) return Swal.fire('แจ้งเตือน','กรุณาตั้งค่า SCRIPT_URL ก่อนใช้งาน','warning');
+      document.getElementById('global-loader').style.display='flex';
+      const f=e.target;
+      const d={ fullname:f.fullname.value, position:f.position.value, workplace:f.workplace.value, district:f.district.value, email:f.email.value, attendance:f.attendance.value };
+      try{
+        const r=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'register',data:d})});
+        const res=await r.json();
+        if(res.status==='success'){
+          Swal.fire('สำเร็จ!','ลงทะเบียนเรียบร้อยแล้ว','success').then(()=> { f.reset(); switchTab('dashboard'); });
+        }else{ Swal.fire('ผิดพลาด',res.message,'error'); }
+      }catch(err){ Swal.fire('ข้อผิดพลาด','การเชื่อมต่อล้มเหลว','error'); }
+      document.getElementById('global-loader').style.display='none';
+    }
+
+    async function loadDashboard(){
+      try{
+        const r=await fetch(SCRIPT_URL+'?action=getDashboard');
+        const d=await r.json();
+        document.getElementById('stat-total').innerText=d.total;
+        document.getElementById('stat-attending').innerText=d.attending;
+        document.getElementById('stat-not').innerText=d.notAttending;
+        const b=document.getElementById('participant-table');
+        b.innerHTML=d.list.map(i=>`<tr><td class="p-3 font-medium">${i.name}</td><td class="p-3 text-slate-500">${i.workplace}</td><td class="p-3">${i.status==='สามารถเข้าร่วมอบรมได้'?'<span class="text-teal-600">เข้าร่วม</span>':'<span class="text-red-400">ไม่เข้าร่วม</span>'}</td></tr>`).join('');
+      }catch(err){ console.log(err); }
+    }
+  </script>
 </body>
 </html>
-
