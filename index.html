@@ -36,7 +36,7 @@
       <div class="bg-white p-2 rounded-2xl shadow-xl w-24 h-24 flex items-center justify-center overflow-hidden">
         <img src="https://i.ibb.co/3yb1bdhc/logo-moph.png" alt="MOPH" class="object-contain">
       </div>
-      <div class="text-center md:text-left">
+      <div class="text-center md:text-left flex-1">
         <h1 class="text-2xl md:text-3xl font-bold">โครงการอบรมการรายงานโรคติดต่อระบบ D506</h1>
         <p class="text-teal-100 text-lg mt-1">จังหวัดอุดรธานี ปีงบประมาณ 2569</p>
       </div>
@@ -58,14 +58,125 @@
     </nav>
 
     <!-- Contents -->
-    <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-10 mb-10 min-h-[500px]">
+    <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-4 md:p-8 mb-10 min-h-[500px]">
       
       <!-- HOME TAB (Poster Style) -->
       <div id="tab-home" class="tab-content active">
-        <!-- (ส่วนนี้เหมือนเดิม หรือใส่ข้อมูลย่อๆ ได้) -->
-        <div class="text-center py-10">
-          <h2 class="text-3xl font-bold text-slate-800 mb-6">ยินดีต้อนรับสู่ระบบรายงานข้อมูล</h2>
-          <button onclick="switchTab('reg')" class="bg-brand text-white px-8 py-4 rounded-full font-bold text-xl shadow-lg hover:scale-105 transition-transform">ลงทะเบียนทันที</button>
+        <!-- Main Poster Container -->
+        <div class="bg-[#0b1021] text-white rounded-2xl p-6 md:p-10 relative overflow-hidden shadow-2xl border border-[#1e293b]">
+          
+          <!-- Background Glow Effects -->
+          <div class="absolute top-0 left-0 w-72 h-72 bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+          <div class="absolute bottom-0 right-0 w-72 h-72 bg-pink-500/10 rounded-full blur-[100px] translate-x-1/2 translate-y-1/2 pointer-events-none"></div>
+          <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30 pointer-events-none"></div>
+
+          <!-- Header / Title -->
+          <div class="relative z-10 text-center mb-12 border-2 border-cyan-400/80 rounded-2xl p-6 shadow-[0_0_15px_rgba(34,211,238,0.3)] bg-[#0b1021]/80 backdrop-blur-sm">
+            <h2 class="text-xl md:text-3xl lg:text-4xl font-bold leading-tight drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
+              <span class="text-white">โครงการอบรมการรายงานโรคติดต่ออันตราย</span><br>
+              <span class="text-white">/โรคติดต่อที่ต้องเฝ้าระวัง ด้วยระบบ D506</span>
+            </h2>
+            <div class="text-lg md:text-2xl text-cyan-300 mt-3 font-semibold tracking-wide drop-shadow-[0_0_5px_rgba(34,211,238,0.8)]">
+              จังหวัดอุดรธานี ปีงบประมาณ 2569
+            </div>
+            <!-- Decorative icon top left -->
+            <div class="absolute -top-5 -left-5 bg-[#0b1021] border border-cyan-400 p-2 rounded-lg text-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]">
+              <i data-lucide="bar-chart-2" class="w-8 h-8"></i>
+            </div>
+          </div>
+
+          <!-- ================= วิทยากร 1 ================= -->
+          <div class="relative z-10 border-2 border-cyan-500 rounded-2xl p-6 md:p-8 mb-12 shadow-[0_0_20px_rgba(34,211,238,0.2)] bg-gradient-to-b from-cyan-900/20 to-transparent mt-8">
+            <!-- Badge -->
+            <div class="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-[#0b1021] border-2 border-cyan-400 px-6 py-1.5 rounded-full text-cyan-300 font-bold text-lg tracking-wider shadow-[0_0_10px_rgba(34,211,238,0.5)] whitespace-nowrap">
+              วิทยากร 1
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-6 items-center md:items-start mt-4">
+              <!-- Photo Container -->
+              <div class="w-32 h-40 shrink-0 border-2 border-cyan-400 rounded-lg p-1 bg-[#0b1021] shadow-[0_0_15px_rgba(34,211,238,0.4)] relative overflow-hidden flex flex-col items-center justify-center group">
+                <img src="https://i.ibb.co/kVDvz9ct/vit1.jpg" onerror="this.src='https://placehold.co/150x200/0b1021/22d3ee?text=วิทยากร+1'" alt="อ.กฤษณะ" class="w-full h-full object-cover rounded">
+                <div class="absolute bottom-0 w-full bg-cyan-500 text-[#0b1021] text-center text-[10px] font-bold py-1 leading-tight">และคณะ</div>
+              </div>
+
+              <!-- Details -->
+              <div class="flex-1 space-y-4">
+                <div class="text-center md:text-left">
+                  <h3 class="text-2xl md:text-3xl font-bold text-white drop-shadow-md">อ.กฤษณะ สุภาวงค์ <span class="text-xl">และคณะ</span></h3>
+                  <p class="text-slate-300 text-sm md:text-base mt-1">จากสำนักงานป้องกันควบคุมโรคที่ 8 อุดรธานี</p>
+                </div>
+                
+                <div class="space-y-3 pt-2 text-sm md:text-base">
+                  <div class="flex items-start gap-3">
+                    <i data-lucide="play" class="w-6 h-6 text-cyan-400 shrink-0 mt-0.5 drop-shadow-[0_0_5px_rgba(34,211,238,1)]"></i>
+                    <p class="text-cyan-50 font-medium">การสอนเรื่อง การประยุกต์ใช้ AI กับการสอบสวนโรคและภัยสุขภาพ</p>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <i data-lucide="play" class="w-6 h-6 text-cyan-400 shrink-0 mt-0.5 drop-shadow-[0_0_5px_rgba(34,211,238,1)]"></i>
+                    <p class="text-cyan-50 font-medium">นวัตกรรมวิเคราะห์ข้อมูลทางระบาดวิทยาขั้นสูง Epi Analytic Pro</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ================= วิทยากร 2 ================= -->
+          <div class="relative z-10 border-2 border-pink-500 rounded-2xl p-6 md:p-8 mb-12 shadow-[0_0_20px_rgba(236,72,153,0.2)] bg-gradient-to-b from-pink-900/20 to-transparent mt-8">
+            <!-- Badge -->
+            <div class="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-[#0b1021] border-2 border-pink-500 px-6 py-1.5 rounded-full text-pink-400 font-bold text-lg tracking-wider shadow-[0_0_10px_rgba(236,72,153,0.5)] whitespace-nowrap">
+              วิทยากร 2
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-6 items-center md:items-start mt-4">
+              <!-- Photo Container -->
+              <div class="w-32 h-40 shrink-0 border-2 border-pink-500 rounded-lg p-1 bg-[#0b1021] shadow-[0_0_15px_rgba(236,72,153,0.4)] relative flex items-center justify-center">
+                 <img src="https://i.ibb.co/84b5KCGH/vit2.jpg" onerror="this.src='https://placehold.co/150x200/0b1021/ec4899?text=วิทยากร+2'" alt="อ.สุกรรณ์" class="w-full h-full object-cover rounded">
+              </div>
+
+              <!-- Details -->
+              <div class="flex-1 space-y-4">
+                <div class="text-center md:text-left">
+                  <h3 class="text-2xl md:text-3xl font-bold text-white drop-shadow-md">อ.สุกรรณ์ โยธะคง <span class="text-xl font-normal text-slate-300">รพ.น้ำโสม</span></h3>
+                  <div class="inline-flex items-center gap-2 mt-2 bg-pink-500/20 border border-pink-500/50 px-3 py-1 rounded-full text-pink-300 text-xs md:text-sm">
+                    <i data-lucide="smartphone" class="w-4 h-4"></i> เจ้าของช่อง TikTok ผู้ติดตามหลักแสน
+                  </div>
+                </div>
+                
+                <div class="space-y-3 pt-2 text-sm md:text-base">
+                  <div class="flex items-start gap-3">
+                    <i data-lucide="play" class="w-6 h-6 text-pink-400 shrink-0 mt-0.5 drop-shadow-[0_0_5px_rgba(236,72,153,1)]"></i>
+                    <p class="text-pink-50 font-medium">สอนเรื่อง การสร้างคลิปและเผยแพร่ด้วย AI เพื่อสื่อสารและตอบโต้เหตุการณ์</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ================= FOOTER & CALL TO ACTION ================= -->
+          <div class="relative z-10 flex flex-col items-center justify-center mt-6 border-t border-[#1e293b] pt-8">
+            <div class="flex flex-wrap items-center justify-center gap-4 mb-8 text-cyan-100 text-sm md:text-base">
+              <span class="flex items-center gap-2 bg-[#1e293b]/80 px-4 py-2 rounded-full border border-cyan-500/30">
+                <i data-lucide="calendar" class="w-5 h-5 text-yellow-400"></i> วันจันทร์ที่ 30 มีนาคม 2569
+              </span>
+              <span class="flex items-center gap-2 bg-[#1e293b]/80 px-4 py-2 rounded-full border border-cyan-500/30">
+                <i data-lucide="map-pin" class="w-5 h-5 text-red-400"></i> ห้องทองกวาว ชั้น 2 สำนักงานสาธารณสุขจังหวัดอุดรธานี
+              </span>
+            </div>
+
+            <!-- Register Button -->
+            <button onclick="switchTab('reg')" class="group relative px-8 py-4 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 rounded-full text-[#0b1021] font-bold text-xl md:text-2xl shadow-[0_0_20px_rgba(250,204,21,0.5)] hover:shadow-[0_0_30px_rgba(250,204,21,0.8)] transition-all transform hover:scale-105 overflow-hidden">
+              <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
+              <span class="flex items-center gap-3">
+                ลงทะเบียนตอนนี้ <i data-lucide="arrow-right-circle" class="w-6 h-6"></i>
+              </span>
+            </button>
+            
+            <!-- Scan QR Hint -->
+            <div class="mt-6 border-2 border-white p-2 rounded-lg bg-white w-20 h-20 md:w-24 md:h-24 flex items-center justify-center">
+              <i data-lucide="qr-code" class="w-16 h-16 text-black"></i>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -73,11 +184,11 @@
       <div id="tab-reg" class="tab-content">
         <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><i data-lucide="edit-3" class="text-brand"></i> แบบฟอร์มลงทะเบียน</h3>
         <form onsubmit="handleRegister(event)" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div><label class="block mb-2 font-medium">ชื่อ-นามสกุล</label><input type="text" name="fullname" required class="w-full p-3 border rounded-xl bg-slate-50 focus:ring-2 focus:ring-brand outline-none"></div>
-          <div><label class="block mb-2 font-medium">ตำแหน่ง</label><input type="text" name="position" required class="w-full p-3 border rounded-xl bg-slate-50 focus:ring-2 focus:ring-brand outline-none"></div>
-          <div><label class="block mb-2 font-medium">สถานที่ปฏิบัติงาน</label><input type="text" name="workplace" required class="w-full p-3 border rounded-xl bg-slate-50 focus:ring-2 focus:ring-brand outline-none"></div>
-          <div><label class="block mb-2 font-medium">อำเภอ</label>
-            <select name="district" required class="w-full p-3 border rounded-xl bg-slate-50 focus:ring-2 focus:ring-brand outline-none">
+          <div><label class="block mb-2 font-medium text-slate-700">ชื่อ-นามสกุล</label><input type="text" name="fullname" required class="w-full p-3 border rounded-xl bg-slate-50 focus:ring-2 focus:ring-brand outline-none" placeholder="ระบุชื่อและนามสกุล"></div>
+          <div><label class="block mb-2 font-medium text-slate-700">ตำแหน่ง</label><input type="text" name="position" required class="w-full p-3 border rounded-xl bg-slate-50 focus:ring-2 focus:ring-brand outline-none" placeholder="ตำแหน่งงานปัจจุบัน"></div>
+          <div><label class="block mb-2 font-medium text-slate-700">สถานที่ปฏิบัติงาน</label><input type="text" name="workplace" required class="w-full p-3 border rounded-xl bg-slate-50 focus:ring-2 focus:ring-brand outline-none" placeholder="ชื่อ รพ. หรือหน่วยงาน"></div>
+          <div><label class="block mb-2 font-medium text-slate-700">อำเภอ</label>
+            <select name="district" required class="w-full p-3 border rounded-xl bg-slate-50 focus:ring-2 focus:ring-brand outline-none appearance-none">
               <option value="">-- เลือกอำเภอ --</option>
               <option>เมืองอุดรธานี</option><option>กุดจับ</option><option>หนองวัวซอ</option><option>กุมภวาปี</option>
               <option>โนนสะอาด</option><option>หนองหาน</option><option>ทุ่งฝน</option><option>ไชยวาน</option>
@@ -86,29 +197,39 @@
               <option>นายูง</option><option>พิบูลรักษ์</option><option>กู่แก้ว</option><option>ประจักษ์ศิลปาคม</option>
             </select>
           </div>
-          <div class="md:col-span-2"><label class="block mb-2 font-medium">อีเมล</label><input type="email" name="email" required class="w-full p-3 border rounded-xl bg-slate-50 focus:ring-2 focus:ring-brand outline-none"></div>
+          <div class="md:col-span-2"><label class="block mb-2 font-medium text-slate-700">อีเมล</label><input type="email" name="email" required class="w-full p-3 border rounded-xl bg-slate-50 focus:ring-2 focus:ring-brand outline-none" placeholder="example@email.com"></div>
           <div class="md:col-span-2">
-            <label class="block mb-4 font-medium">สถานะการเข้าร่วม</label>
+            <label class="block mb-4 font-medium text-slate-700">สถานะการเข้าร่วม</label>
             <div class="flex flex-col sm:flex-row gap-4">
-              <label class="flex-1 p-4 border rounded-xl cursor-pointer has-[:checked]:bg-teal-50 has-[:checked]:border-brand transition-all">
-                <input type="radio" name="attendance" value="สามารถเข้าร่วมอบรมได้" required class="mr-2"> เข้าร่วมได้
+              <label class="flex-1 p-4 border rounded-xl cursor-pointer has-[:checked]:bg-teal-50 has-[:checked]:border-brand transition-all flex items-center gap-3">
+                <input type="radio" name="attendance" value="สามารถเข้าร่วมอบรมได้" required class="w-5 h-5 accent-brand">
+                <span class="font-medium">สามารถเข้าร่วมอบรมได้</span>
               </label>
-              <label class="flex-1 p-4 border rounded-xl cursor-pointer has-[:checked]:bg-red-50 has-[:checked]:border-red-500 transition-all">
-                <input type="radio" name="attendance" value="ไม่สามารถเข้าร่วมอบรมได้" required class="mr-2"> ไม่เข้าร่วม
+              <label class="flex-1 p-4 border rounded-xl cursor-pointer has-[:checked]:bg-red-50 has-[:checked]:border-red-500 transition-all flex items-center gap-3">
+                <input type="radio" name="attendance" value="ไม่สามารถเข้าร่วมอบรมได้" required class="w-5 h-5 accent-red-500">
+                <span class="font-medium text-slate-600">ไม่สามารถเข้าร่วมอบรมได้</span>
               </label>
             </div>
           </div>
-          <button type="submit" class="md:col-span-2 bg-brand text-white py-4 rounded-xl font-bold text-lg hover:bg-brand-dark shadow-lg">ยืนยันข้อมูล</button>
+          <button type="submit" class="md:col-span-2 bg-brand text-white py-4 rounded-xl font-bold text-lg hover:bg-brand-dark shadow-lg transition-all flex items-center justify-center gap-2">
+            <i data-lucide="save" class="w-5 h-5"></i> บันทึกข้อมูลและยืนยัน
+          </button>
         </form>
       </div>
 
       <!-- DASHBOARD TAB -->
       <div id="tab-dash" class="tab-content">
         <!-- สรุปผล 20 อำเภอ -->
-        <h4 class="text-xl font-bold mb-4 flex items-center gap-2"><i data-lucide="map" class="text-brand"></i> สรุปผลรายอำเภอ (20 อำเภอ)</h4>
-        <div class="overflow-x-auto mb-10 rounded-2xl border">
+        <div class="flex justify-between items-center mb-6">
+          <h4 class="text-xl font-bold flex items-center gap-2 text-slate-800"><i data-lucide="map" class="text-brand"></i> สรุปผลรายอำเภอ</h4>
+          <button onclick="fetchDashboard()" class="text-sm bg-slate-100 hover:bg-slate-200 text-slate-600 py-2 px-4 rounded-lg flex items-center gap-2 transition-all">
+            <i data-lucide="refresh-cw" class="w-4 h-4"></i> อัปเดตข้อมูล
+          </button>
+        </div>
+        
+        <div class="overflow-x-auto mb-10 rounded-2xl border border-slate-200 shadow-sm">
           <table class="w-full text-left border-collapse min-w-[600px]">
-            <thead class="bg-slate-50 border-b">
+            <thead class="bg-slate-50 border-b border-slate-200">
               <tr>
                 <th class="p-4 font-bold text-slate-600">อำเภอ</th>
                 <th class="p-4 font-bold text-blue-600 text-center">ลงทะเบียนแล้ว</th>
@@ -116,26 +237,26 @@
                 <th class="p-4 font-bold text-red-600 text-center">มาไม่ได้</th>
               </tr>
             </thead>
-            <tbody id="district-summary-body" class="divide-y">
+            <tbody id="district-summary-body" class="divide-y divide-slate-100">
               <!-- JS Injected here -->
             </tbody>
           </table>
         </div>
 
         <!-- รายละเอียดรายชื่อ + จัดการ -->
-        <h4 class="text-xl font-bold mb-4 flex items-center gap-2"><i data-lucide="users" class="text-brand"></i> จัดการรายชื่อผู้ลงทะเบียน</h4>
-        <div class="overflow-x-auto rounded-2xl border">
+        <h4 class="text-xl font-bold mb-4 flex items-center gap-2 text-slate-800"><i data-lucide="users" class="text-brand"></i> จัดการรายชื่อผู้ลงทะเบียน</h4>
+        <div class="overflow-x-auto rounded-2xl border border-slate-200 shadow-sm bg-white">
           <table class="w-full text-left border-collapse min-w-[800px]">
-            <thead class="bg-slate-100 border-b">
+            <thead class="bg-slate-100 border-b border-slate-200">
               <tr>
-                <th class="p-4">ลำดับ</th>
-                <th class="p-4">ชื่อ-นามสกุล</th>
-                <th class="p-4">หน่วยงาน</th>
-                <th class="p-4">สถานะ</th>
-                <th class="p-4 text-center">จัดการ</th>
+                <th class="p-4 text-slate-500 font-medium">ลำดับ</th>
+                <th class="p-4 text-slate-500 font-medium">ชื่อ-นามสกุล</th>
+                <th class="p-4 text-slate-500 font-medium">หน่วยงาน</th>
+                <th class="p-4 text-slate-500 font-medium">สถานะ</th>
+                <th class="p-4 text-center text-slate-500 font-medium">จัดการ</th>
               </tr>
             </thead>
-            <tbody id="participant-list-body" class="divide-y">
+            <tbody id="participant-list-body" class="divide-y divide-slate-100">
               <!-- JS Injected here -->
             </tbody>
           </table>
@@ -146,10 +267,12 @@
   </main>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzaaWWRjcNcrvMuLQMHOV5m8m6tujKZ_Gd9kIk737LNqhAHup-YA6YVCa15r5OWHkjC/exec'; // *** ใส่ URL จากการ Deploy ของคุณที่นี่ ***
+    // ********* สำคัญ: อย่าลืมใส่ Web App URL ของท่านที่นี่ *********
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzaaWWRjcNcrvMuLQMHOV5m8m6tujKZ_Gd9kIk737LNqhAHup-YA6YVCa15r5OWHkjC/exec'; 
 
     lucide.createIcons();
 
+    // ระบบสลับแท็บ
     function switchTab(t) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.getElementById('tab-' + t).classList.add('active');
@@ -158,15 +281,15 @@
       btns.forEach(b => {
         const el = document.getElementById('btn-' + b);
         if(b === t) {
-          el.className = "flex-1 py-3 px-6 rounded-xl font-medium bg-brand text-white shadow-lg transition-all flex items-center justify-center gap-2 whitespace-nowrap";
+          el.className = "flex-1 py-3 px-6 rounded-xl font-bold bg-brand text-white shadow-lg transition-all flex items-center justify-center gap-2 whitespace-nowrap";
         } else {
           el.className = "flex-1 py-3 px-6 rounded-xl font-medium text-slate-600 hover:bg-slate-50 transition-all flex items-center justify-center gap-2 whitespace-nowrap border border-transparent";
         }
       });
       if(t === 'dash') fetchDashboard();
     }
-    switchTab('home');
 
+    // ฟังก์ชันส่งฟอร์มลงทะเบียน
     async function handleRegister(e) {
       e.preventDefault();
       const form = e.target;
@@ -184,53 +307,67 @@
         const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'register', data }) });
         const result = await res.json();
         if(result.status === 'success') {
-          Swal.fire('สำเร็จ!', 'ลงทะเบียนเรียบร้อยแล้ว', 'success');
+          Swal.fire({ icon: 'success', title: 'ลงทะเบียนสำเร็จ!', text: 'ข้อมูลของท่านถูกบันทึกเข้าระบบเรียบร้อยแล้ว', confirmButtonColor: '#0d9488' });
           form.reset();
           switchTab('dash');
         } else {
           Swal.fire('ผิดพลาด', result.message, 'error');
         }
-      } catch(err) { Swal.fire('Error', 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้', 'error'); }
+      } catch(err) { Swal.fire('ข้อผิดพลาด', 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาตรวจสอบ URL ในโค้ด', 'error'); }
       showLoader(false);
     }
 
+    // ดึงข้อมูลแดชบอร์ด
     async function fetchDashboard() {
       try {
         const res = await fetch(SCRIPT_URL + '?action=getDashboard');
         const data = await res.json();
         renderDashboard(data);
-      } catch(err) { console.error(err); }
+      } catch(err) { 
+        console.error(err);
+        // แสดงข้อมูลจำลองถ้าหาก URL ยังไม่ได้ใส่
+        if(SCRIPT_URL.includes('YOUR_WEB_APP')) {
+           renderMockDashboard();
+        }
+      }
     }
 
+    // แสดงผลข้อมูลแดชบอร์ด
     function renderDashboard(data) {
-      // 1. Render District Summary (4 Columns)
+      // 1. สรุปรายอำเภอ (4 คอลัมน์)
       const distBody = document.getElementById('district-summary-body');
       distBody.innerHTML = '';
-      Object.entries(data.districtSummary).forEach(([name, stats]) => {
+      Object.entries(data.districtSummary).forEach(([name, stats], index) => {
         distBody.innerHTML += `
-          <tr class="hover:bg-slate-50">
-            <td class="p-4 font-medium text-slate-700">${name}</td>
-            <td class="p-4 text-center font-bold text-blue-600">${stats.total}</td>
-            <td class="p-4 text-center font-bold text-teal-600">${stats.attending}</td>
-            <td class="p-4 text-center font-bold text-red-500">${stats.absent}</td>
+          <tr class="hover:bg-slate-50/50 transition-colors">
+            <td class="p-4 font-medium text-slate-700">${index + 1}. ${name}</td>
+            <td class="p-4 text-center font-bold text-blue-600 bg-blue-50/30">${stats.total}</td>
+            <td class="p-4 text-center font-bold text-teal-600 bg-teal-50/30">${stats.attending}</td>
+            <td class="p-4 text-center font-bold text-red-500 bg-red-50/30">${stats.absent}</td>
           </tr>
         `;
       });
 
-      // 2. Render Participant Table with Action Buttons
+      // 2. ตารางรายชื่อผู้ลงทะเบียน
       const partBody = document.getElementById('participant-list-body');
       partBody.innerHTML = '';
+      if(data.list.length === 0) {
+          partBody.innerHTML = '<tr><td colspan="5" class="p-10 text-center text-slate-400 italic">ยังไม่มีข้อมูลผู้ลงทะเบียน</td></tr>';
+      }
       data.list.forEach((p, idx) => {
-        const statusClass = p.status === 'สามารถเข้าร่วมอบรมได้' ? 'text-teal-600 bg-teal-50' : 'text-red-600 bg-red-50';
+        const statusClass = p.status.includes('สามารถ') ? 'text-teal-700 bg-teal-100' : 'text-red-700 bg-red-100';
         partBody.innerHTML += `
-          <tr class="hover:bg-slate-50">
-            <td class="p-4 text-slate-400">${data.list.length - idx}</td>
-            <td class="p-4 font-bold">${p.name} <br><span class="text-xs font-normal text-slate-400">${p.position}</span></td>
-            <td class="p-4 text-sm">${p.workplace} <span class="text-slate-400">(${p.district})</span></td>
-            <td class="p-4"><span class="px-3 py-1 rounded-full text-xs font-bold ${statusClass}">${p.status.split(' ')[0]}</span></td>
-            <td class="p-4 text-center flex justify-center gap-2">
-              <button onclick='openEditModal(${JSON.stringify(p)})' class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg" title="แก้ไข"><i data-lucide="pencil" class="w-5 h-5"></i></button>
-              <button onclick="handleDelete(${p.rowIndex})" class="p-2 text-red-600 hover:bg-red-50 rounded-lg" title="ลบ"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
+          <tr class="hover:bg-slate-50 transition-colors">
+            <td class="p-4 text-slate-400 text-sm font-medium">${data.list.length - idx}</td>
+            <td class="p-4">
+              <div class="font-bold text-slate-800">${p.name}</div>
+              <div class="text-xs text-slate-400 font-normal">${p.position}</div>
+            </td>
+            <td class="p-4 text-sm text-slate-600">${p.workplace} <span class="block text-xs text-slate-400">${p.district}</span></td>
+            <td class="p-4"><span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${statusClass}">${p.status.split(' ')[0]}</span></td>
+            <td class="p-4 text-center flex justify-center items-center gap-1">
+              <button onclick='openEditModal(${JSON.stringify(p)})' class="p-2 text-blue-500 hover:bg-blue-100 rounded-lg transition-colors" title="แก้ไข"><i data-lucide="pencil" class="w-4 h-4"></i></button>
+              <button onclick="handleDelete(${p.rowIndex})" class="p-2 text-red-500 hover:bg-red-100 rounded-lg transition-colors" title="ลบ"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
             </td>
           </tr>
         `;
@@ -238,10 +375,11 @@
       lucide.createIcons();
     }
 
+    // ลบข้อมูล
     async function handleDelete(rowIndex) {
       const confirm = await Swal.fire({
         title: 'ยืนยันการลบ?',
-        text: "ข้อมูลนี้จะถูกลบออกจากระบบอย่างถาวร",
+        text: "ข้อมูลนี้จะถูกลบออกจากระบบอย่างถาวร ไม่สามารถกู้คืนได้",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#ef4444',
@@ -255,38 +393,47 @@
           const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'delete', rowIndex }) });
           const result = await res.json();
           if(result.status === 'success') {
-            Swal.fire('ลบแล้ว!', 'ข้อมูลถูกนำออกแล้ว', 'success');
+            Swal.fire('ลบข้อมูลแล้ว!', '', 'success');
             fetchDashboard();
           }
-        } catch(e) { Swal.fire('Error', 'ลบไม่สำเร็จ', 'error'); }
+        } catch(e) { Swal.fire('Error', 'เกิดข้อผิดพลาดในการลบข้อมูล', 'error'); }
         showLoader(false);
       }
     }
 
+    // แก้ไขข้อมูล (Modal)
     async function openEditModal(p) {
       const { value: formValues } = await Swal.fire({
         title: 'แก้ไขข้อมูลผู้ลงทะเบียน',
         html: `
-          <input id="swal-name" class="swal2-input" placeholder="ชื่อ-นามสกุล" value="${p.name}">
-          <input id="swal-pos" class="swal2-input" placeholder="ตำแหน่ง" value="${p.position}">
-          <input id="swal-work" class="swal2-input" placeholder="หน่วยงาน" value="${p.workplace}">
-          <select id="swal-dist" class="swal2-input">
-            <option>${p.district}</option>
-            <option>เมืองอุดรธานี</option><option>กุดจับ</option><option>หนองวัวซอ</option><option>กุมภวาปี</option>
-            <option>โนนสะอาด</option><option>หนองหาน</option><option>ทุ่งฝน</option><option>ไชยวาน</option>
-            <option>ศรีธาตุ</option><option>วังสามหมอ</option><option>บ้านดุง</option><option>บ้านผือ</option>
-            <option>น้ำโสม</option><option>เพ็ญ</option><option>สร้างคอม</option><option>หนองแสง</option>
-            <option>นายูง</option><option>พิบูลรักษ์</option><option>กู่แก้ว</option><option>ประจักษ์ศิลปาคม</option>
-          </select>
-          <input id="swal-email" class="swal2-input" placeholder="อีเมล" value="${p.email}">
-          <select id="swal-att" class="swal2-input">
-            <option value="สามารถเข้าร่วมอบรมได้" ${p.status.includes('สามารถ') ? 'selected' : ''}>สามารถเข้าร่วมได้</option>
-            <option value="ไม่สามารถเข้าร่วมอบรมได้" ${p.status.includes('ไม่') ? 'selected' : ''}>ไม่สามารถเข้าร่วมได้</option>
-          </select>
+          <div class="text-left space-y-4">
+            <div><label class="text-xs font-bold text-slate-500 uppercase">ชื่อ-นามสกุล</label><input id="swal-name" class="swal2-input w-full m-0 mt-1" style="width:100%" placeholder="ชื่อ-นามสกุล" value="${p.name}"></div>
+            <div><label class="text-xs font-bold text-slate-500 uppercase">ตำแหน่ง</label><input id="swal-pos" class="swal2-input w-full m-0 mt-1" style="width:100%" placeholder="ตำแหน่ง" value="${p.position}"></div>
+            <div><label class="text-xs font-bold text-slate-500 uppercase">หน่วยงาน</label><input id="swal-work" class="swal2-input w-full m-0 mt-1" style="width:100%" placeholder="หน่วยงาน" value="${p.workplace}"></div>
+            <div><label class="text-xs font-bold text-slate-500 uppercase">อำเภอ</label>
+              <select id="swal-dist" class="swal2-input w-full m-0 mt-1" style="width:100%">
+                <option selected>${p.district}</option>
+                <option>เมืองอุดรธานี</option><option>กุดจับ</option><option>หนองวัวซอ</option><option>กุมภวาปี</option>
+                <option>โนนสะอาด</option><option>หนองหาน</option><option>ทุ่งฝน</option><option>ไชยวาน</option>
+                <option>ศรีธาตุ</option><option>วังสามหมอ</option><option>บ้านดุง</option><option>บ้านผือ</option>
+                <option>น้ำโสม</option><option>เพ็ญ</option><option>สร้างคอม</option><option>หนองแสง</option>
+                <option>นายูง</option><option>พิบูลรักษ์</option><option>กู่แก้ว</option><option>ประจักษ์ศิลปาคม</option>
+              </select>
+            </div>
+            <div><label class="text-xs font-bold text-slate-500 uppercase">อีเมล</label><input id="swal-email" class="swal2-input w-full m-0 mt-1" style="width:100%" placeholder="อีเมล" value="${p.email}"></div>
+            <div><label class="text-xs font-bold text-slate-500 uppercase">สถานะ</label>
+              <select id="swal-att" class="swal2-input w-full m-0 mt-1" style="width:100%">
+                <option value="สามารถเข้าร่วมอบรมได้" ${p.status.includes('สามารถ') ? 'selected' : ''}>สามารถเข้าร่วมได้</option>
+                <option value="ไม่สามารถเข้าร่วมอบรมได้" ${p.status.includes('ไม่') ? 'selected' : ''}>ไม่สามารถเข้าร่วมได้</option>
+              </select>
+            </div>
+          </div>
         `,
         focusConfirm: false,
         showCancelButton: true,
         confirmButtonText: 'บันทึกการแก้ไข',
+        confirmButtonColor: '#0d9488',
+        cancelButtonText: 'ยกเลิก',
         preConfirm: () => {
           return {
             fullname: document.getElementById('swal-name').value,
@@ -308,15 +455,23 @@
           });
           const result = await res.json();
           if(result.status === 'success') {
-            Swal.fire('สำเร็จ', 'อัปเดตข้อมูลแล้ว', 'success');
+            Swal.fire('สำเร็จ', 'อัปเดตข้อมูลผู้ลงทะเบียนแล้ว', 'success');
             fetchDashboard();
           }
-        } catch(e) { Swal.fire('Error', 'บันทึกไม่สำเร็จ', 'error'); }
+        } catch(e) { Swal.fire('Error', 'ไม่สามารถบันทึกข้อมูลได้', 'error'); }
         showLoader(false);
       }
     }
 
     function showLoader(s) { document.getElementById('loader').style.display = s ? 'flex' : 'none'; }
+    
+    // ฟังก์ชันช่วยแสดงผลจำลอง (สำหรับ Preview)
+    function renderMockDashboard() {
+        const districts = ["เมืองอุดรธานี", "กุดจับ", "หนองวัวซอ", "กุมภวาปี", "โนนสะอาด", "หนองหาน", "ทุ่งฝน", "ไชยวาน", "ศรีธาตุ", "วังสามหมอ", "บ้านดุง", "บ้านผือ", "น้ำโสม", "เพ็ญ", "สร้างคอม", "หนองแสง", "นายูง", "พิบูลรักษ์", "กู่แก้ว", "ประจักษ์ศิลปาคม"];
+        const mockSummary = {};
+        districts.forEach(d => mockSummary[d] = { total: 0, attending: 0, absent: 0 });
+        renderDashboard({ list: [], districtSummary: mockSummary });
+    }
   </script>
 </body>
 </html>
