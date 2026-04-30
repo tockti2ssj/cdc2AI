@@ -1,477 +1,648 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ระบบลงทะเบียน D506 อุดรธานี</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script>
-    tailwind.config = {
-      theme: { extend: { fontFamily: { kanit: ['Kanit', 'sans-serif'] }, colors: { brand: { light: '#ccfbf1', DEFAULT: '#0d9488', dark: '#0f766e' } } } }
-    }
-  </script>
-  <style>
-    body { font-family: 'Kanit', sans-serif; background-color: #f1f5f9; }
-    .tab-content { display: none; }
-    .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    #loader { display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.8); z-index: 50; justify-content: center; align-items: center; }
-  </style>
-</head>
-<body class="text-slate-800">
-
-  <div id="loader" class="flex flex-col gap-4">
-    <div class="w-12 h-12 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
-    <p class="font-medium text-brand">กำลังดำเนินการ...</p>
-  </div>
-
-  <!-- Header -->
-  <header class="bg-gradient-to-r from-blue-800 to-brand-dark text-white py-10 shadow-lg">
-    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-6">
-      <div class="bg-white p-2 rounded-2xl shadow-xl w-24 h-24 flex items-center justify-center overflow-hidden">
-        <img src="https://i.ibb.co/3yb1bdhc/logo-moph.png" alt="MOPH" class="object-contain">
-      </div>
-      <div class="text-center md:text-left flex-1">
-        <h1 class="text-2xl md:text-3xl font-bold">โครงการอบรมการรายงานโรคติดต่อระบบ D506</h1>
-        <p class="text-teal-100 text-lg mt-1">จังหวัดอุดรธานี ปีงบประมาณ 2569</p>
-      </div>
-    </div>
-  </header>
-
-  <main class="max-w-6xl mx-auto px-4 -mt-8">
-    <!-- Tabs -->
-    <nav class="bg-white p-2 rounded-2xl shadow-md mb-8 flex gap-2 border border-slate-200 overflow-x-auto">
-      <button onclick="switchTab('home')" id="btn-home" class="flex-1 py-3 px-6 rounded-xl font-medium transition-all flex items-center justify-center gap-2 whitespace-nowrap">
-        <i data-lucide="home" class="w-5 h-5"></i> หน้าแรก
-      </button>
-      <button onclick="switchTab('reg')" id="btn-reg" class="flex-1 py-3 px-6 rounded-xl font-medium transition-all flex items-center justify-center gap-2 whitespace-nowrap">
-        <i data-lucide="user-plus" class="w-5 h-5"></i> ลงทะเบียน
-      </button>
-      <button onclick="switchTab('dash')" id="btn-dash" class="flex-1 py-3 px-6 rounded-xl font-medium transition-all flex items-center justify-center gap-2 whitespace-nowrap">
-        <i data-lucide="bar-chart-3" class="w-5 h-5"></i> แดชบอร์ดจัดการข้อมูล
-      </button>
-    </nav>
-
-    <!-- Contents -->
-    <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-4 md:p-8 mb-10 min-h-[500px]">
-      
-      <!-- HOME TAB (Poster Style) -->
-      <div id="tab-home" class="tab-content active">
-        <!-- Main Poster Container -->
-        <div class="bg-[#0b1021] text-white rounded-2xl p-6 md:p-10 relative overflow-hidden shadow-2xl border border-[#1e293b]">
-          
-          <!-- Background Glow Effects -->
-          <div class="absolute top-0 left-0 w-72 h-72 bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none"></div>
-          <div class="absolute bottom-0 right-0 w-72 h-72 bg-pink-500/10 rounded-full blur-[100px] translate-x-1/2 translate-y-1/2 pointer-events-none"></div>
-          <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30 pointer-events-none"></div>
-
-          <!-- Header / Title -->
-          <div class="relative z-10 text-center mb-12 border-2 border-cyan-400/80 rounded-2xl p-6 shadow-[0_0_15px_rgba(34,211,238,0.3)] bg-[#0b1021]/80 backdrop-blur-sm">
-            <h2 class="text-xl md:text-3xl lg:text-4xl font-bold leading-tight drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
-              <span class="text-white">โครงการอบรมการรายงานโรคติดต่ออันตราย</span><br>
-              <span class="text-white">/โรคติดต่อที่ต้องเฝ้าระวัง ด้วยระบบ D506</span>
-            </h2>
-            <div class="text-lg md:text-2xl text-cyan-300 mt-3 font-semibold tracking-wide drop-shadow-[0_0_5px_rgba(34,211,238,0.8)]">
-              จังหวัดอุดรธานี ปีงบประมาณ 2569
-            </div>
-            <!-- Decorative icon top left -->
-            <div class="absolute -top-5 -left-5 bg-[#0b1021] border border-cyan-400 p-2 rounded-lg text-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]">
-              <i data-lucide="bar-chart-2" class="w-8 h-8"></i>
-            </div>
-          </div>
-
-          <!-- ================= วิทยากร 1 ================= -->
-          <div class="relative z-10 border-2 border-cyan-500 rounded-2xl p-6 md:p-8 mb-12 shadow-[0_0_20px_rgba(34,211,238,0.2)] bg-gradient-to-b from-cyan-900/20 to-transparent mt-8">
-            <!-- Badge -->
-            <div class="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-[#0b1021] border-2 border-cyan-400 px-6 py-1.5 rounded-full text-cyan-300 font-bold text-lg tracking-wider shadow-[0_0_10px_rgba(34,211,238,0.5)] whitespace-nowrap">
-              วิทยากร 1
-            </div>
-
-            <div class="flex flex-col md:flex-row gap-6 items-center md:items-start mt-4">
-              <!-- Photo Container -->
-              <div class="w-32 h-40 shrink-0 border-2 border-cyan-400 rounded-lg p-1 bg-[#0b1021] shadow-[0_0_15px_rgba(34,211,238,0.4)] relative overflow-hidden flex flex-col items-center justify-center group">
-                <img src="https://i.ibb.co/kVDvz9ct/vit1.jpg" onerror="this.src='https://placehold.co/150x200/0b1021/22d3ee?text=วิทยากร+1'" alt="อ.กฤษณะ" class="w-full h-full object-cover rounded">
-                <div class="absolute bottom-0 w-full bg-cyan-500 text-[#0b1021] text-center text-[10px] font-bold py-1 leading-tight">และคณะ</div>
-              </div>
-
-              <!-- Details -->
-              <div class="flex-1 space-y-4">
-                <div class="text-center md:text-left">
-                  <h3 class="text-2xl md:text-3xl font-bold text-white drop-shadow-md">อ.กฤษณะ สุภาวงค์ <span class="text-xl">และคณะ</span></h3>
-                  <p class="text-slate-300 text-sm md:text-base mt-1">จากสำนักงานป้องกันควบคุมโรคที่ 8 อุดรธานี</p>
-                </div>
-                
-                <div class="space-y-3 pt-2 text-sm md:text-base">
-                  <div class="flex items-start gap-3">
-                    <i data-lucide="play" class="w-6 h-6 text-cyan-400 shrink-0 mt-0.5 drop-shadow-[0_0_5px_rgba(34,211,238,1)]"></i>
-                    <p class="text-cyan-50 font-medium">การสอนเรื่อง การประยุกต์ใช้ AI กับการสอบสวนโรคและภัยสุขภาพ</p>
-                  </div>
-                  <div class="flex items-start gap-3">
-                    <i data-lucide="play" class="w-6 h-6 text-cyan-400 shrink-0 mt-0.5 drop-shadow-[0_0_5px_rgba(34,211,238,1)]"></i>
-                    <p class="text-cyan-50 font-medium">นวัตกรรมวิเคราะห์ข้อมูลทางระบาดวิทยาขั้นสูง Epi Analytic Pro</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- ================= วิทยากร 2 ================= -->
-          <div class="relative z-10 border-2 border-pink-500 rounded-2xl p-6 md:p-8 mb-12 shadow-[0_0_20px_rgba(236,72,153,0.2)] bg-gradient-to-b from-pink-900/20 to-transparent mt-8">
-            <!-- Badge -->
-            <div class="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-[#0b1021] border-2 border-pink-500 px-6 py-1.5 rounded-full text-pink-400 font-bold text-lg tracking-wider shadow-[0_0_10px_rgba(236,72,153,0.5)] whitespace-nowrap">
-              วิทยากร 2
-            </div>
-
-            <div class="flex flex-col md:flex-row gap-6 items-center md:items-start mt-4">
-              <!-- Photo Container -->
-              <div class="w-32 h-40 shrink-0 border-2 border-pink-500 rounded-lg p-1 bg-[#0b1021] shadow-[0_0_15px_rgba(236,72,153,0.4)] relative flex items-center justify-center">
-                 <img src="https://i.ibb.co/84b5KCGH/vit2.jpg" onerror="this.src='https://placehold.co/150x200/0b1021/ec4899?text=วิทยากร+2'" alt="อ.สุกรรณ์" class="w-full h-full object-cover rounded">
-              </div>
-
-              <!-- Details -->
-              <div class="flex-1 space-y-4">
-                <div class="text-center md:text-left">
-                  <h3 class="text-2xl md:text-3xl font-bold text-white drop-shadow-md">อ.สุกรรณ์ โยธะคง <span class="text-xl font-normal text-slate-300">รพ.น้ำโสม</span></h3>
-                  <div class="inline-flex items-center gap-2 mt-2 bg-pink-500/20 border border-pink-500/50 px-3 py-1 rounded-full text-pink-300 text-xs md:text-sm">
-                    <i data-lucide="smartphone" class="w-4 h-4"></i> เจ้าของช่อง TikTok ผู้ติดตามหลักแสน
-                  </div>
-                </div>
-                
-                <div class="space-y-3 pt-2 text-sm md:text-base">
-                  <div class="flex items-start gap-3">
-                    <i data-lucide="play" class="w-6 h-6 text-pink-400 shrink-0 mt-0.5 drop-shadow-[0_0_5px_rgba(236,72,153,1)]"></i>
-                    <p class="text-pink-50 font-medium">สอนเรื่อง การสร้างคลิปและเผยแพร่ด้วย AI เพื่อสื่อสารและตอบโต้เหตุการณ์</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- ================= FOOTER & CALL TO ACTION ================= -->
-          <div class="relative z-10 flex flex-col items-center justify-center mt-6 border-t border-[#1e293b] pt-8">
-            <div class="flex flex-wrap items-center justify-center gap-4 mb-8 text-cyan-100 text-sm md:text-base">
-              <span class="flex items-center gap-2 bg-[#1e293b]/80 px-4 py-2 rounded-full border border-cyan-500/30">
-                <i data-lucide="calendar" class="w-5 h-5 text-yellow-400"></i> วันจันทร์ที่ 30 มีนาคม 2569
-              </span>
-              <span class="flex items-center gap-2 bg-[#1e293b]/80 px-4 py-2 rounded-full border border-cyan-500/30">
-                <i data-lucide="map-pin" class="w-5 h-5 text-red-400"></i> ห้องทองกวาว ชั้น 2 สำนักงานสาธารณสุขจังหวัดอุดรธานี
-              </span>
-            </div>
-
-            <!-- Register Button -->
-            <button onclick="switchTab('reg')" class="group relative px-8 py-4 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 rounded-full text-[#0b1021] font-bold text-xl md:text-2xl shadow-[0_0_20px_rgba(250,204,21,0.5)] hover:shadow-[0_0_30px_rgba(250,204,21,0.8)] transition-all transform hover:scale-105 overflow-hidden">
-              <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
-              <span class="flex items-center gap-3">
-                ลงทะเบียนตอนนี้ <i data-lucide="arrow-right-circle" class="w-6 h-6"></i>
-              </span>
-            </button>
-            
-            <!-- Scan QR Hint -->
-            <div class="mt-6 border-2 border-white p-2 rounded-lg bg-white w-20 h-20 md:w-24 md:h-24 flex items-center justify-center">
-              <i data-lucide="qr-code" class="w-16 h-16 text-black"></i>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- REGISTRATION TAB -->
-      <div id="tab-reg" class="tab-content">
-        <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><i data-lucide="edit-3" class="text-brand"></i> แบบฟอร์มลงทะเบียน</h3>
-        <form onsubmit="handleRegister(event)" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div><label class="block mb-2 font-medium text-slate-700">ชื่อ-นามสกุล</label><input type="text" name="fullname" required class="w-full p-3 border rounded-xl bg-slate-50 focus:ring-2 focus:ring-brand outline-none" placeholder="ระบุชื่อและนามสกุล"></div>
-          <div><label class="block mb-2 font-medium text-slate-700">ตำแหน่ง</label><input type="text" name="position" required class="w-full p-3 border rounded-xl bg-slate-50 focus:ring-2 focus:ring-brand outline-none" placeholder="ตำแหน่งงานปัจจุบัน"></div>
-          <div><label class="block mb-2 font-medium text-slate-700">สถานที่ปฏิบัติงาน</label><input type="text" name="workplace" required class="w-full p-3 border rounded-xl bg-slate-50 focus:ring-2 focus:ring-brand outline-none" placeholder="ชื่อ รพ. หรือหน่วยงาน"></div>
-          <div><label class="block mb-2 font-medium text-slate-700">อำเภอ</label>
-            <select name="district" required class="w-full p-3 border rounded-xl bg-slate-50 focus:ring-2 focus:ring-brand outline-none appearance-none">
-              <option value="">-- เลือกอำเภอ --</option>
-              <option>เมืองอุดรธานี</option><option>กุดจับ</option><option>หนองวัวซอ</option><option>กุมภวาปี</option>
-              <option>โนนสะอาด</option><option>หนองหาน</option><option>ทุ่งฝน</option><option>ไชยวาน</option>
-              <option>ศรีธาตุ</option><option>วังสามหมอ</option><option>บ้านดุง</option><option>บ้านผือ</option>
-              <option>น้ำโสม</option><option>เพ็ญ</option><option>สร้างคอม</option><option>หนองแสง</option>
-              <option>นายูง</option><option>พิบูลรักษ์</option><option>กู่แก้ว</option><option>ประจักษ์ศิลปาคม</option>
-            </select>
-          </div>
-          <div class="md:col-span-2"><label class="block mb-2 font-medium text-slate-700">อีเมล</label><input type="email" name="email" required class="w-full p-3 border rounded-xl bg-slate-50 focus:ring-2 focus:ring-brand outline-none" placeholder="example@email.com"></div>
-          <div class="md:col-span-2">
-            <label class="block mb-4 font-medium text-slate-700">สถานะการเข้าร่วม</label>
-            <div class="flex flex-col sm:flex-row gap-4">
-              <label class="flex-1 p-4 border rounded-xl cursor-pointer has-[:checked]:bg-teal-50 has-[:checked]:border-brand transition-all flex items-center gap-3">
-                <input type="radio" name="attendance" value="สามารถเข้าร่วมอบรมได้" required class="w-5 h-5 accent-brand">
-                <span class="font-medium">สามารถเข้าร่วมอบรมได้</span>
-              </label>
-              <label class="flex-1 p-4 border rounded-xl cursor-pointer has-[:checked]:bg-red-50 has-[:checked]:border-red-500 transition-all flex items-center gap-3">
-                <input type="radio" name="attendance" value="ไม่สามารถเข้าร่วมอบรมได้" required class="w-5 h-5 accent-red-500">
-                <span class="font-medium text-slate-600">ไม่สามารถเข้าร่วมอบรมได้</span>
-              </label>
-            </div>
-          </div>
-          <button type="submit" class="md:col-span-2 bg-brand text-white py-4 rounded-xl font-bold text-lg hover:bg-brand-dark shadow-lg transition-all flex items-center justify-center gap-2">
-            <i data-lucide="save" class="w-5 h-5"></i> บันทึกข้อมูลและยืนยัน
-          </button>
-        </form>
-      </div>
-
-      <!-- DASHBOARD TAB -->
-      <div id="tab-dash" class="tab-content">
-        <!-- สรุปผล 20 อำเภอ -->
-        <div class="flex justify-between items-center mb-6">
-          <h4 class="text-xl font-bold flex items-center gap-2 text-slate-800"><i data-lucide="map" class="text-brand"></i> สรุปผลรายอำเภอ</h4>
-          <button onclick="fetchDashboard()" class="text-sm bg-slate-100 hover:bg-slate-200 text-slate-600 py-2 px-4 rounded-lg flex items-center gap-2 transition-all">
-            <i data-lucide="refresh-cw" class="w-4 h-4"></i> อัปเดตข้อมูล
-          </button>
-        </div>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard ผลการจัดส่งรายงานเฝ้าระวังโรค D506</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        html, body { 
+            height: auto; 
+            min-height: 100%; 
+            overflow-x: hidden; 
+            background-color: #f0f9ff; 
+        }
         
-        <div class="overflow-x-auto mb-10 rounded-2xl border border-slate-200 shadow-sm">
-          <table class="w-full text-left border-collapse min-w-[600px]">
-            <thead class="bg-slate-50 border-b border-slate-200">
-              <tr>
-                <th class="p-4 font-bold text-slate-600">อำเภอ</th>
-                <th class="p-4 font-bold text-blue-600 text-center">ลงทะเบียนแล้ว</th>
-                <th class="p-4 font-bold text-teal-600 text-center">มาได้</th>
-                <th class="p-4 font-bold text-red-600 text-center">มาไม่ได้</th>
-              </tr>
-            </thead>
-            <tbody id="district-summary-body" class="divide-y divide-slate-100">
-              <!-- JS Injected here -->
-            </tbody>
-          </table>
-        </div>
+        body { 
+            font-family: 'Prompt', sans-serif; 
+            color: #0f172a; 
+            font-size: 16px; 
+            -webkit-print-color-adjust: exact; 
+            print-color-adjust: exact;
+        }
 
-        <!-- รายละเอียดรายชื่อ + จัดการ -->
-        <h4 class="text-xl font-bold mb-4 flex items-center gap-2 text-slate-800"><i data-lucide="users" class="text-brand"></i> จัดการรายชื่อผู้ลงทะเบียน</h4>
-        <div class="overflow-x-auto rounded-2xl border border-slate-200 shadow-sm bg-white">
-          <table class="w-full text-left border-collapse min-w-[800px]">
-            <thead class="bg-slate-100 border-b border-slate-200">
-              <tr>
-                <th class="p-4 text-slate-500 font-medium">ลำดับ</th>
-                <th class="p-4 text-slate-500 font-medium">ชื่อ-นามสกุล</th>
-                <th class="p-4 text-slate-500 font-medium">หน่วยงาน</th>
-                <th class="p-4 text-slate-500 font-medium">สถานะ</th>
-                <th class="p-4 text-center text-slate-500 font-medium">จัดการ</th>
-              </tr>
-            </thead>
-            <tbody id="participant-list-body" class="divide-y divide-slate-100">
-              <!-- JS Injected here -->
-            </tbody>
-          </table>
-        </div>
-      </div>
+        .glass-card { 
+            background: #ffffff; 
+            border: 1px solid #bae6fd; 
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 3D Badge & Cards */
+        .badge-3d {
+            box-shadow: 0 8px 0 #047857, 0 15px 25px rgba(16,185,129,0.3);
+            border: 2px solid rgba(255,255,255,0.4);
+        }
 
+        .card-3d { 
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.2s ease;
+        }
+        
+        .c-blue { background: linear-gradient(135deg, #3b82f6, #1d4ed8); box-shadow: 0 8px 0 #1e40af, 0 15px 20px rgba(37,99,235,0.2); } 
+        .c-emerald { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 8px 0 #047857, 0 15px 20px rgba(16,185,129,0.2); } 
+        .c-cyan { background: linear-gradient(135deg, #06b6d4, #0891b2); box-shadow: 0 8px 0 #0e7490, 0 15px 20px rgba(6,182,212,0.2); } 
+        .c-rose { background: linear-gradient(135deg, #f43f5e, #e11d48); box-shadow: 0 8px 0 #be123c, 0 15px 20px rgba(244,63,94,0.2); } 
+
+        .v-divider { border-right: 4px solid #cbd5e1 !important; }
+        
+        th { 
+            background-color: #f1f5f9 !important;
+            color: #334155 !important;
+            font-weight: 800 !important; 
+            text-align: center !important; 
+            border-bottom: 2px solid #e2e8f0 !important;
+            font-size: 13px !important;
+            padding: 8px 4px !important;
+        }
+        
+        /* Row Colors */
+        .row-sent-ontime { background-color: #f0fdf4 !important; border-bottom: 1px solid #dcfce7 !important; }
+        .row-sent-zero { background-color: #f0f9ff !important; border-bottom: 1px solid #e0f2fe !important; }
+        .row-sent-late { background-color: #fffbeb !important; border-bottom: 1px solid #fef3c7 !important; }
+        .row-missing { background-color: #fff1f2 !important; border-bottom: 1px solid #ffe4e6 !important; }
+        
+        .col-stats-total { width: 140px; }
+        .col-stats-item { width: 100px; }
+
+        .status-badge {
+            font-weight: 800 !important;
+            padding: 2px 8px !important;
+            font-size: 10px !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Sparkline Chart Adjustment */
+        .sparkline-container {
+            border-radius: 8px;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        #exportLoading {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="pb-6">
+
+    <div id="exportLoading">
+        <div class="w-16 h-16 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+        <p class="text-xl font-black text-slate-800">กำลังจัดทำภาพความคมชัดสูง...</p>
+        <p class="text-slate-500 font-bold mt-2">กรุณารอสักครู่เพื่อความสวยงามในการส่ง Line</p>
     </div>
-  </main>
 
-  <script>
-    // ********* สำคัญ: อย่าลืมใส่ Web App URL ของท่านที่นี่ *********
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzaaWWRjcNcrvMuLQMHOV5m8m6tujKZ_Gd9kIk737LNqhAHup-YA6YVCa15r5OWHkjC/exec'; 
-
-    lucide.createIcons();
-
-    // ระบบสลับแท็บ
-    function switchTab(t) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.getElementById('tab-' + t).classList.add('active');
-      
-      const btns = ['home', 'reg', 'dash'];
-      btns.forEach(b => {
-        const el = document.getElementById('btn-' + b);
-        if(b === t) {
-          el.className = "flex-1 py-3 px-6 rounded-xl font-bold bg-brand text-white shadow-lg transition-all flex items-center justify-center gap-2 whitespace-nowrap";
-        } else {
-          el.className = "flex-1 py-3 px-6 rounded-xl font-medium text-slate-600 hover:bg-slate-50 transition-all flex items-center justify-center gap-2 whitespace-nowrap border border-transparent";
-        }
-      });
-      if(t === 'dash') fetchDashboard();
-    }
-
-    // ฟังก์ชันส่งฟอร์มลงทะเบียน
-    async function handleRegister(e) {
-      e.preventDefault();
-      const form = e.target;
-      const data = {
-        fullname: form.fullname.value,
-        position: form.position.value,
-        workplace: form.workplace.value,
-        district: form.district.value,
-        email: form.email.value,
-        attendance: form.attendance.value
-      };
-      
-      showLoader(true);
-      try {
-        const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'register', data }) });
-        const result = await res.json();
-        if(result.status === 'success') {
-          Swal.fire({ icon: 'success', title: 'ลงทะเบียนสำเร็จ!', text: 'ข้อมูลของท่านถูกบันทึกเข้าระบบเรียบร้อยแล้ว', confirmButtonColor: '#0d9488' });
-          form.reset();
-          switchTab('dash');
-        } else {
-          Swal.fire('ผิดพลาด', result.message, 'error');
-        }
-      } catch(err) { Swal.fire('ข้อผิดพลาด', 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาตรวจสอบ URL ในโค้ด', 'error'); }
-      showLoader(false);
-    }
-
-    // ดึงข้อมูลแดชบอร์ด
-    async function fetchDashboard() {
-      try {
-        const res = await fetch(SCRIPT_URL + '?action=getDashboard');
-        const data = await res.json();
-        renderDashboard(data);
-      } catch(err) { 
-        console.error(err);
-        // แสดงข้อมูลจำลองถ้าหาก URL ยังไม่ได้ใส่
-        if(SCRIPT_URL.includes('YOUR_WEB_APP')) {
-           renderMockDashboard();
-        }
-      }
-    }
-
-    // แสดงผลข้อมูลแดชบอร์ด
-    function renderDashboard(data) {
-      // 1. สรุปรายอำเภอ (4 คอลัมน์)
-      const distBody = document.getElementById('district-summary-body');
-      distBody.innerHTML = '';
-      Object.entries(data.districtSummary).forEach(([name, stats], index) => {
-        distBody.innerHTML += `
-          <tr class="hover:bg-slate-50/50 transition-colors">
-            <td class="p-4 font-medium text-slate-700">${index + 1}. ${name}</td>
-            <td class="p-4 text-center font-bold text-blue-600 bg-blue-50/30">${stats.total}</td>
-            <td class="p-4 text-center font-bold text-teal-600 bg-teal-50/30">${stats.attending}</td>
-            <td class="p-4 text-center font-bold text-red-500 bg-red-50/30">${stats.absent}</td>
-          </tr>
-        `;
-      });
-
-      // 2. ตารางรายชื่อผู้ลงทะเบียน
-      const partBody = document.getElementById('participant-list-body');
-      partBody.innerHTML = '';
-      if(data.list.length === 0) {
-          partBody.innerHTML = '<tr><td colspan="5" class="p-10 text-center text-slate-400 italic">ยังไม่มีข้อมูลผู้ลงทะเบียน</td></tr>';
-      }
-      data.list.forEach((p, idx) => {
-        const statusClass = p.status.includes('สามารถ') ? 'text-teal-700 bg-teal-100' : 'text-red-700 bg-red-100';
-        partBody.innerHTML += `
-          <tr class="hover:bg-slate-50 transition-colors">
-            <td class="p-4 text-slate-400 text-sm font-medium">${data.list.length - idx}</td>
-            <td class="p-4">
-              <div class="font-bold text-slate-800">${p.name}</div>
-              <div class="text-xs text-slate-400 font-normal">${p.position}</div>
-            </td>
-            <td class="p-4 text-sm text-slate-600">${p.workplace} <span class="block text-xs text-slate-400">${p.district}</span></td>
-            <td class="p-4"><span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${statusClass}">${p.status.split(' ')[0]}</span></td>
-            <td class="p-4 text-center flex justify-center items-center gap-1">
-              <button onclick='openEditModal(${JSON.stringify(p)})' class="p-2 text-blue-500 hover:bg-blue-100 rounded-lg transition-colors" title="แก้ไข"><i data-lucide="pencil" class="w-4 h-4"></i></button>
-              <button onclick="handleDelete(${p.rowIndex})" class="p-2 text-red-500 hover:bg-red-100 rounded-lg transition-colors" title="ลบ"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-            </td>
-          </tr>
-        `;
-      });
-      lucide.createIcons();
-    }
-
-    // ลบข้อมูล
-    async function handleDelete(rowIndex) {
-      const confirm = await Swal.fire({
-        title: 'ยืนยันการลบ?',
-        text: "ข้อมูลนี้จะถูกลบออกจากระบบอย่างถาวร ไม่สามารถกู้คืนได้",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#ef4444',
-        cancelButtonText: 'ยกเลิก',
-        confirmButtonText: 'ใช่, ลบเลย'
-      });
-
-      if (confirm.isConfirmed) {
-        showLoader(true);
-        try {
-          const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'delete', rowIndex }) });
-          const result = await res.json();
-          if(result.status === 'success') {
-            Swal.fire('ลบข้อมูลแล้ว!', '', 'success');
-            fetchDashboard();
-          }
-        } catch(e) { Swal.fire('Error', 'เกิดข้อผิดพลาดในการลบข้อมูล', 'error'); }
-        showLoader(false);
-      }
-    }
-
-    // แก้ไขข้อมูล (Modal)
-    async function openEditModal(p) {
-      const { value: formValues } = await Swal.fire({
-        title: 'แก้ไขข้อมูลผู้ลงทะเบียน',
-        html: `
-          <div class="text-left space-y-4">
-            <div><label class="text-xs font-bold text-slate-500 uppercase">ชื่อ-นามสกุล</label><input id="swal-name" class="swal2-input w-full m-0 mt-1" style="width:100%" placeholder="ชื่อ-นามสกุล" value="${p.name}"></div>
-            <div><label class="text-xs font-bold text-slate-500 uppercase">ตำแหน่ง</label><input id="swal-pos" class="swal2-input w-full m-0 mt-1" style="width:100%" placeholder="ตำแหน่ง" value="${p.position}"></div>
-            <div><label class="text-xs font-bold text-slate-500 uppercase">หน่วยงาน</label><input id="swal-work" class="swal2-input w-full m-0 mt-1" style="width:100%" placeholder="หน่วยงาน" value="${p.workplace}"></div>
-            <div><label class="text-xs font-bold text-slate-500 uppercase">อำเภอ</label>
-              <select id="swal-dist" class="swal2-input w-full m-0 mt-1" style="width:100%">
-                <option selected>${p.district}</option>
-                <option>เมืองอุดรธานี</option><option>กุดจับ</option><option>หนองวัวซอ</option><option>กุมภวาปี</option>
-                <option>โนนสะอาด</option><option>หนองหาน</option><option>ทุ่งฝน</option><option>ไชยวาน</option>
-                <option>ศรีธาตุ</option><option>วังสามหมอ</option><option>บ้านดุง</option><option>บ้านผือ</option>
-                <option>น้ำโสม</option><option>เพ็ญ</option><option>สร้างคอม</option><option>หนองแสง</option>
-                <option>นายูง</option><option>พิบูลรักษ์</option><option>กู่แก้ว</option><option>ประจักษ์ศิลปาคม</option>
-              </select>
+    <div class="max-w-[1600px] mx-auto p-4 md:p-6" id="mainContainer">
+        
+        <!-- Header Section -->
+        <header class="bg-white p-6 rounded-[2.5rem] shadow-xl mb-8 border-2 border-blue-100 flex flex-col lg:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-6">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Ministry_of_Public_Health_Logo_%28Thailand%29.svg" 
+                     onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/8065/8065070.png';"
+                     alt="MOPH Logo" class="w-20 h-20 object-contain drop-shadow-md">
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-black text-slate-800 tracking-tight leading-tight">
+                        Dashboard ผลการจัดส่งรายงานเฝ้าระวังโรค D506
+                    </h1>
+                    <div class="flex items-center gap-4 mt-1">
+                        <h2 class="text-xl font-black text-blue-600 uppercase">จังหวัดอุดรธานี</h2>
+                        <span class="text-slate-300 text-xl font-bold">|</span>
+                        <p id="currentWeekRange" class="text-emerald-600 font-black text-lg flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
+                            พร้อมวิเคราะห์ข้อมูล
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div><label class="text-xs font-bold text-slate-500 uppercase">อีเมล</label><input id="swal-email" class="swal2-input w-full m-0 mt-1" style="width:100%" placeholder="อีเมล" value="${p.email}"></div>
-            <div><label class="text-xs font-bold text-slate-500 uppercase">สถานะ</label>
-              <select id="swal-att" class="swal2-input w-full m-0 mt-1" style="width:100%">
-                <option value="สามารถเข้าร่วมอบรมได้" ${p.status.includes('สามารถ') ? 'selected' : ''}>สามารถเข้าร่วมได้</option>
-                <option value="ไม่สามารถเข้าร่วมอบรมได้" ${p.status.includes('ไม่') ? 'selected' : ''}>ไม่สามารถเข้าร่วมได้</option>
-              </select>
+
+            <div class="flex items-center gap-5">
+                <div id="dropZone" class="group bg-blue-50 hover:bg-blue-100 px-8 py-3 rounded-2xl border-2 border-dashed border-blue-300 hover:border-blue-400 cursor-pointer transition-all flex items-center gap-4">
+                    <i data-lucide="upload-cloud" class="w-8 h-8 text-blue-500"></i>
+                    <div>
+                        <p class="font-black text-blue-700 text-sm">อัปโหลดไฟล์</p>
+                        <p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest text-center">CSV</p>
+                    </div>
+                    <input type="file" id="csvInput" accept=".csv" class="hidden">
+                </div>
+
+                <!-- 3D Week Badge -->
+                <div id="weekBadgeContainer" class="hidden relative">
+                    <div class="absolute inset-0 bg-emerald-400 blur-lg opacity-40 rounded-[2rem]"></div>
+                    <div class="w-32 h-32 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-[2rem] badge-3d flex flex-col items-center justify-center text-white relative z-10">
+                        <span class="text-[11px] font-black uppercase tracking-widest opacity-90 drop-shadow-sm">WEEK</span>
+                        <span id="displayWeek" class="text-[4rem] font-black leading-none my-0.5 drop-shadow-md">--</span>
+                        <span class="text-[10px] font-black bg-black/20 px-4 py-0.5 rounded-full shadow-inner border border-white/10 mt-1">2569</span>
+                    </div>
+                </div>
             </div>
-          </div>
-        `,
-        focusConfirm: false,
-        showCancelButton: true,
-        confirmButtonText: 'บันทึกการแก้ไข',
-        confirmButtonColor: '#0d9488',
-        cancelButtonText: 'ยกเลิก',
-        preConfirm: () => {
-          return {
-            fullname: document.getElementById('swal-name').value,
-            position: document.getElementById('swal-pos').value,
-            workplace: document.getElementById('swal-work').value,
-            district: document.getElementById('swal-dist').value,
-            email: document.getElementById('swal-email').value,
-            attendance: document.getElementById('swal-att').value
-          }
+        </header>
+
+        <main id="dashboardArea" class="hidden space-y-8">
+            
+            <!-- Row 1: Status Cards (Bright & Cheerful) -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="card-3d c-blue rounded-[1.5rem] p-6 text-white relative overflow-hidden group">
+                    <i data-lucide="bar-chart-2" class="absolute -right-6 -bottom-6 w-32 h-32 opacity-20 group-hover:scale-110 transition-transform duration-500"></i>
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-[11px] font-black uppercase tracking-widest opacity-90">ส่งในสัปดาห์</span>
+                            <div class="bg-white/20 p-2.5 rounded-xl backdrop-blur-md border border-white/30 shadow-lg">
+                                <i data-lucide="send" class="w-6 h-6"></i>
+                            </div>
+                        </div>
+                        <h3 id="statRate" class="text-4xl font-black my-1 drop-shadow-md">0%</h3>
+                        <p id="statCount" class="text-xs font-black bg-white/20 inline-block px-4 py-1 rounded-lg">0/0 แห่ง</p>
+                    </div>
+                </div>
+                <div class="card-3d c-emerald rounded-[1.5rem] p-6 text-white relative overflow-hidden group">
+                    <i data-lucide="timer" class="absolute -right-6 -bottom-6 w-32 h-32 opacity-20 group-hover:scale-110 transition-transform duration-500"></i>
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-[11px] font-black uppercase tracking-widest opacity-90">ส่งทันเวลา</span>
+                            <div class="bg-white/20 p-2.5 rounded-xl backdrop-blur-md border border-white/30 shadow-lg">
+                                <i data-lucide="check-circle" class="w-6 h-6"></i>
+                            </div>
+                        </div>
+                        <h3 id="statOnTime" class="text-4xl font-black my-1 drop-shadow-md">0%</h3>
+                        <!-- เพิ่ม ID กลับคืนมาให้ JavaScript ใช้งานได้ -->
+                        <span id="statOnTimeDetail" class="text-[11px] font-black uppercase bg-black/20 px-3 py-1 rounded-lg">ผลงาน 0 / 0 (แห่ง)</span>
+                    </div>
+                </div>
+                <div class="card-3d c-cyan rounded-[1.5rem] p-6 text-white relative overflow-hidden group">
+                    <i data-lucide="shield-check" class="absolute -right-6 -bottom-6 w-32 h-32 opacity-20 group-hover:scale-110 transition-transform duration-500"></i>
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-[11px] font-black uppercase tracking-widest opacity-90">ส่ง Zero Report</span>
+                            <div class="bg-white/20 p-2.5 rounded-xl backdrop-blur-md border border-white/30 shadow-lg">
+                                <i data-lucide="file-check-2" class="w-6 h-6"></i>
+                            </div>
+                        </div>
+                        <h3 id="statZero" class="text-4xl font-black my-1 drop-shadow-md">0</h3>
+                        <!-- แก้ข้อความเป็น จำนวนหน่วย -->
+                        <span class="text-[11px] font-bold bg-white/20 px-3 py-1 rounded-lg">จำนวนหน่วย</span>
+                    </div>
+                </div>
+                <div class="card-3d c-rose rounded-[1.5rem] p-6 text-white relative overflow-hidden group">
+                    <i data-lucide="bell-ring" class="absolute -right-6 -bottom-6 w-32 h-32 opacity-20 group-hover:scale-110 transition-transform duration-500"></i>
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-[11px] font-black uppercase tracking-widest opacity-90">ยังไม่ส่งข้อมูล</span>
+                            <div class="bg-white/20 p-2.5 rounded-xl backdrop-blur-md border border-white/30 shadow-lg">
+                                <i data-lucide="alert-octagon" class="w-6 h-6"></i>
+                            </div>
+                        </div>
+                        <h3 id="statMissing" class="text-4xl font-black my-1 drop-shadow-md">0</h3>
+                        <p class="text-[11px] font-black flex items-center gap-1 uppercase bg-white/20 px-3 py-1 rounded-lg w-fit"><i data-lucide="flame" class="w-3.5 h-3.5"></i> ต้องติดตาม</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Tables Section -->
+            <div class="bg-white rounded-[2rem] shadow-xl border-2 border-blue-50 p-6 md:p-8">
+                
+                <div class="space-y-12">
+                    <!-- Part 1: Mueang District -->
+                    <section>
+                        <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-5 mb-6">
+                            <div class="flex flex-wrap items-center gap-4">
+                                <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg">
+                                    <i data-lucide="list-checks" class="w-7 h-7"></i>
+                                </div>
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <h3 class="text-2xl font-black text-slate-800 tracking-tight">สรุปผลการรายงานประจำสัปดาห์</h3>
+                                    <span class="bg-orange-500 text-white px-4 py-1.5 rounded-xl shadow-md text-lg font-black tracking-wide border-2 border-orange-200">อ.เมืองอุดรธานี</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-wrap items-center gap-3 bg-slate-50 p-2 rounded-2xl border border-slate-200">
+                                <div id="mueangTypeSummary" class="flex flex-wrap gap-2"></div>
+                            </div>
+                        </div>
+                        <div class="overflow-hidden border-2 border-slate-200 rounded-[1.5rem] bg-white">
+                            <table class="w-full text-left border-collapse min-w-[800px] table-fixed">
+                                <thead class="text-slate-700 uppercase tracking-widest text-[11px] font-black">
+                                    <tr>
+                                        <th colspan="2" class="px-5 py-3 text-left v-divider">ชื่อสถานพยาบาลและสถานะรายงาน</th>
+                                        <th class="px-2 py-3 col-stats-total">รพ.สต./ศสม.</th>
+                                        <th class="px-2 py-3 col-stats-item">ส่งแล้ว</th>
+                                        <th class="px-2 py-3 col-stats-item text-orange-600">ส่งช้า</th>
+                                        <th class="px-2 py-3 col-stats-item text-red-600">ไม่ส่ง</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="mueangTableBody" class="text-slate-900"></tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Part 2: Other Districts -->
+                    <section>
+                        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5 mb-5 border-t-2 border-dashed border-slate-200 pt-8">
+                            <h4 class="bg-blue-600 text-white px-8 py-2.5 rounded-xl shadow-md text-xl font-black tracking-tight uppercase border-2 border-blue-200">อำเภออื่นๆ ในจังหวัด</h4>
+                            <div class="flex flex-wrap items-center gap-2 bg-slate-50 p-2 rounded-2xl border border-slate-200">
+                                <div id="otherTypeSummary" class="flex flex-wrap gap-2"></div>
+                            </div>
+                        </div>
+                        <div class="overflow-hidden border-2 border-slate-200 rounded-[1.5rem] bg-white">
+                            <table class="w-full text-left border-collapse min-w-[1000px] table-fixed">
+                                <thead class="text-slate-700 uppercase tracking-widest text-[11px] font-black">
+                                    <tr>
+                                        <th class="px-5 py-3 w-[240px] text-left district-col-header">กราฟผลงาน 5W | อำเภอ</th>
+                                        <th class="px-5 py-3 v-divider text-left">ชื่อสถานพยาบาลและสถานะรายงาน</th>
+                                        <th class="px-2 py-3 col-stats-total">รพ.สต./ศสม.</th>
+                                        <th class="px-2 py-3 col-stats-item">ส่งแล้ว</th>
+                                        <th class="px-2 py-3 col-stats-item text-orange-600">ส่งช้า</th>
+                                        <th class="px-2 py-3 col-stats-item text-red-600">ไม่ส่ง</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="otherTableBody" class="text-slate-900"></tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Bottom Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-[2rem] shadow-xl border-2 border-rose-200">
+                    <div class="flex justify-between items-center mb-6">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-rose-100 p-2 rounded-xl"><i data-lucide="alert-octagon" class="w-8 h-8 text-rose-600"></i></div>
+                            <h3 class="text-xl font-black text-rose-700 uppercase tracking-tight">ไม่มีการส่งต่อเนื่อง</h3>
+                        </div>
+                        <span id="missingBadge" class="bg-rose-600 text-white px-5 py-1.5 rounded-full font-black text-xs shadow-md">0 แห่ง</span>
+                    </div>
+                    <div id="missingListContainer"></div>
+                </div>
+                <div class="bg-white p-8 rounded-[2rem] shadow-xl border-2 border-blue-200">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="bg-blue-100 p-2 rounded-xl"><i data-lucide="trending-up" class="w-8 h-8 text-blue-600"></i></div>
+                        <h3 class="text-xl font-black text-blue-800 uppercase tracking-tight">แนวโน้มผลการรายงาน</h3>
+                    </div>
+                    <div class="h-[280px]"><canvas id="historyChart"></canvas></div>
+                </div>
+            </div>
+
+            <!-- Export Button Area -->
+            <div id="exportButtonArea" class="pt-8 pb-10 flex justify-center no-print">
+                <button onclick="exportToImage()" class="group flex items-center gap-4 bg-emerald-600 hover:bg-emerald-700 text-white px-12 py-5 rounded-full shadow-2xl transition-all transform active:scale-95 border-b-8 border-emerald-800">
+                    <i data-lucide="camera" class="w-8 h-8 group-hover:rotate-6 transition-transform"></i>
+                    <span class="text-2xl font-black tracking-tight uppercase">สร้างภาพสรุปผล (Export Image)</span>
+                </button>
+            </div>
+        </main>
+
+        <div id="emptyState" class="mt-12 py-32 bg-white rounded-[3rem] shadow-xl border-4 border-dashed border-blue-100 flex flex-col items-center justify-center">
+            <div class="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mb-8 border border-blue-100 shadow-inner">
+                <i data-lucide="file-spreadsheet" class="w-12 h-12 text-blue-500 animate-pulse"></i>
+            </div>
+            <h2 class="text-4xl font-black text-slate-700 mb-3 tracking-tighter text-center">Disease Surveillance Dashboard</h2>
+            <p class="text-xl text-slate-400 font-bold italic text-center px-10">กรุณาอัปโหลดไฟล์รายงาน .csv เพื่อเริ่มต้นแสดงผล</p>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        let currentCharts = {};
+        let sparklineCharts = [];
+        let currentWeekNum = "--";
+        const dropZone = document.getElementById('dropZone');
+        const csvInput = document.getElementById('csvInput');
+        const dashboardArea = document.getElementById('dashboardArea');
+        const emptyState = document.getElementById('emptyState');
+
+        dropZone.onclick = () => csvInput.click();
+        csvInput.onchange = (e) => handleFile(e.target.files[0]);
+
+        function handleFile(file) {
+            if (!file) return;
+            Papa.parse(file, {
+                header: true,
+                skipEmptyLines: true,
+                complete: (results) => {
+                    renderDashboard(results.data);
+                    dashboardArea.classList.remove('hidden');
+                    emptyState.classList.add('hidden');
+                    lucide.createIcons();
+                }
+            });
         }
-      });
 
-      if (formValues) {
-        showLoader(true);
-        try {
-          const res = await fetch(SCRIPT_URL, { 
-            method: 'POST', 
-            body: JSON.stringify({ action: 'update', rowIndex: p.rowIndex, data: formValues }) 
-          });
-          const result = await res.json();
-          if(result.status === 'success') {
-            Swal.fire('สำเร็จ', 'อัปเดตข้อมูลผู้ลงทะเบียนแล้ว', 'success');
-            fetchDashboard();
-          }
-        } catch(e) { Swal.fire('Error', 'ไม่สามารถบันทึกข้อมูลได้', 'error'); }
-        showLoader(false);
-      }
-    }
+        async function exportToImage() {
+            const container = document.getElementById('mainContainer');
+            const exportBtnArea = document.getElementById('exportButtonArea');
+            const loading = document.getElementById('exportLoading');
+            
+            loading.style.display = 'flex';
+            
+            try {
+                await new Promise(resolve => setTimeout(resolve, 800));
+                
+                const canvas = await html2canvas(container, {
+                    scale: 2.5, 
+                    useCORS: true,
+                    backgroundColor: "#f0f9ff",
+                    logging: false,
+                    windowWidth: 1600,
+                    onclone: (clonedDoc) => {
+                        const btn = clonedDoc.getElementById('exportButtonArea');
+                        if(btn) btn.style.display = 'none';
+                        
+                        const districtHeaders = clonedDoc.querySelectorAll('.district-col-header');
+                        districtHeaders.forEach(el => el.style.display = 'none');
+                        
+                        const districtCells = clonedDoc.querySelectorAll('.district-col-cell');
+                        districtCells.forEach(el => el.style.display = 'none');
+                    }
+                });
+                
+                const imageData = canvas.toDataURL("image/png");
+                const link = document.createElement('a');
+                link.download = `D506-Dashboard-W${currentWeekNum}.png`;
+                link.href = imageData;
+                link.click();
+            } catch (err) {
+                console.error("Export error:", err);
+            } finally {
+                loading.style.display = 'none';
+                if(exportBtnArea) exportBtnArea.style.visibility = 'visible';
+            }
+        }
 
-    function showLoader(s) { document.getElementById('loader').style.display = s ? 'flex' : 'none'; }
-    
-    // ฟังก์ชันช่วยแสดงผลจำลอง (สำหรับ Preview)
-    function renderMockDashboard() {
-        const districts = ["เมืองอุดรธานี", "กุดจับ", "หนองวัวซอ", "กุมภวาปี", "โนนสะอาด", "หนองหาน", "ทุ่งฝน", "ไชยวาน", "ศรีธาตุ", "วังสามหมอ", "บ้านดุง", "บ้านผือ", "น้ำโสม", "เพ็ญ", "สร้างคอม", "หนองแสง", "นายูง", "พิบูลรักษ์", "กู่แก้ว", "ประจักษ์ศิลปาคม"];
-        const mockSummary = {};
-        districts.forEach(d => mockSummary[d] = { total: 0, attending: 0, absent: 0 });
-        renderDashboard({ list: [], districtSummary: mockSummary });
-    }
-  </script>
+        function renderDashboard(data) {
+            data.forEach(d => {
+                d.week = parseInt(d['สัปดาห์ระบาด']);
+                d.is_sent = d.kpi !== 'ไม่ส่ง';
+                const match = d['สถานพยาบาล']?.match(/\((.*?)\)/);
+                if(match) d['สถานพยาบาล'] = match[1];
+                else d['สถานพยาบาล'] = d['สถานพยาบาล']?.replace(/^[0-9]+\s*/, '') || 'ไม่ระบุ';
+            });
+
+            const maxWeek = Math.max(...data.map(d => d.week));
+            currentWeekNum = maxWeek;
+            const latestData = data.filter(d => d.week === maxWeek);
+            const allWeeks = [...new Set(data.map(d => d.week))].sort((a,b) => a-b);
+
+            document.getElementById('dropZone').classList.add('hidden');
+            document.getElementById('weekBadgeContainer').classList.remove('hidden');
+            document.getElementById('displayWeek').innerText = maxWeek;
+            document.getElementById('currentWeekRange').innerHTML = `ข้อมูลสัปดาห์ที่ ${maxWeek}`;
+
+            const getBadgeStyles = (type) => {
+                // ใช้สีสันสดใส
+                if (type.includes('ศูนย์')) return 'bg-purple-600 text-white shadow-md border border-purple-400';
+                if (type.includes('ทั่วไป')) return 'bg-indigo-600 text-white shadow-md border border-indigo-400';
+                if (type.includes('ชุมชน')) return 'bg-cyan-600 text-white shadow-md border border-cyan-400';
+                if (type.includes('เอกชน')) return 'bg-amber-500 text-white shadow-md border border-amber-400';
+                if (type.includes('รพ.สต.') || type.includes('ส่งเสริมสุขภาพ')) return 'bg-emerald-500 text-white shadow-md border border-emerald-400';
+                return 'bg-slate-600 text-white shadow-md border border-slate-400';
+            };
+
+            const renderTypeSummary = (subset) => {
+                const counts = {};
+                subset.forEach(d => counts[d.hosp_type_detail] = (counts[d.hosp_type_detail] || 0) + 1);
+                return Object.entries(counts).sort((a,b) => b[1]-a[1]).map(([type, count]) => `
+                    <span class="text-[12px] font-black px-4 py-1 rounded-xl ${getBadgeStyles(type)}">
+                        ${type} : ${count}
+                    </span>
+                `).join('');
+            };
+
+            document.getElementById('mueangTypeSummary').innerHTML = renderTypeSummary(latestData.filter(d => d['อำเภอ']?.includes('เมือง')));
+            document.getElementById('otherTypeSummary').innerHTML = renderTypeSummary(latestData.filter(d => !d['อำเภอ']?.includes('เมือง')));
+
+            const total = latestData.length;
+            const sent = latestData.filter(d => d.is_sent).length;
+            const ontime = latestData.filter(d => d.kpi?.includes('ทันเวลา>')).length;
+            const zero = latestData.filter(d => d.kpi?.includes('Zero')).length;
+            const missing = total - sent;
+
+            document.getElementById('statRate').innerText = `${((sent/total)*100).toFixed(1)}%`;
+            document.getElementById('statCount').innerText = `${sent}/${total} แห่ง`;
+            document.getElementById('statOnTime').innerText = `${((ontime/total)*100).toFixed(1)}%`;
+            // ใช้ id statOnTimeDetail ที่ถูกเพิ่มกลับมาแล้ว
+            document.getElementById('statOnTimeDetail').innerText = `ผลงาน ${ontime} / ${total} (แห่ง)`;
+            document.getElementById('statZero').innerText = zero;
+            document.getElementById('statMissing').innerText = missing;
+
+            const isSub = d => {
+                const t = d.hosp_type_detail || '';
+                return t.includes('ส่งเสริมสุขภาพ') || t.includes('รพ.สต.') || t.includes('ศสม.') || t.includes('บริการ');
+            };
+
+            const mainHosp = latestData.filter(d => !isSub(d));
+            const subStats = {};
+            [...new Set(latestData.map(d => d['อำเภอ']))].filter(Boolean).forEach(amp => {
+                const subs = latestData.filter(d => d['อำเภอ'] === amp && isSub(d));
+                subStats[amp] = {
+                    total: subs.length,
+                    sent: subs.filter(d => d.is_sent).length,
+                    late: subs.filter(d => d.kpi?.includes('ทันเวลา<')).length,
+                    missing: subs.filter(d => !d.is_sent).length
+                };
+            });
+
+            const ampRate = {};
+            Object.keys(subStats).forEach(amp => {
+                const mains = mainHosp.filter(d => d['อำเภอ'] === amp);
+                const t = mains.length + subStats[amp].total;
+                const s = mains.filter(d => d.is_sent).length + subStats[amp].sent;
+                ampRate[amp] = t > 0 ? (s/t)*100 : 0;
+            });
+
+            const getStatusBadge = (kpi, sent) => {
+                if (!sent) return 'bg-rose-600 text-white';
+                if (kpi.includes('ทันเวลา>')) return 'bg-emerald-600 text-white';
+                if (kpi.includes('Zero')) return 'bg-blue-600 text-white';
+                if (kpi.includes('ทันเวลา<')) return 'bg-orange-500 text-white';
+                return 'bg-slate-500 text-white';
+            };
+
+            const getRowBg = (kpi, sent) => {
+                if (!sent) return 'row-missing';
+                if (kpi.includes('ทันเวลา>')) return 'row-sent-ontime';
+                if (kpi.includes('Zero')) return 'row-sent-zero';
+                if (kpi.includes('ทันเวลา<')) return 'row-sent-late';
+                return '';
+            };
+
+            // Part 1: Mueang (Compact padding + Large font for text)
+            const mueangRows = mainHosp.filter(d => d['อำเภอ']?.includes('เมือง')).sort((a,b) => {
+                const rank = h => h['สถานพยาบาล'].includes('อุดรธานี') ? 1 : 2;
+                return rank(a) - rank(b);
+            });
+
+            let mueangHTML = '';
+            mueangRows.forEach(d => {
+                const isUdon = d['สถานพยาบาล'].includes('อุดรธานี');
+                const subs = isUdon ? subStats[d['อำเภอ']] : { total: '-', sent: '-', late: '-', missing: '-' };
+                mueangHTML += `
+                    <tr class="${getRowBg(d.kpi, d.is_sent)}">
+                        <td colspan="2" class="px-5 py-0.5 v-divider align-middle">
+                            <span class="text-[21px] font-black mr-4 text-black">${d['สถานพยาบาล']}</span>
+                            <span class="status-badge rounded-lg text-[10px] uppercase inline-block align-middle ${getStatusBadge(d.kpi, d.is_sent)}">${d.kpi || 'ยังไม่ส่ง'}</span>
+                        </td>
+                        <td class="px-4 py-0.5 text-center text-[20px] font-bold align-middle text-slate-700">${subs.total}</td>
+                        <td class="px-4 py-0.5 text-center text-[24px] font-black text-emerald-700 align-middle">${subs.sent}</td>
+                        <td class="px-4 py-0.5 text-center text-[24px] font-black text-orange-600 align-middle">${subs.late}</td>
+                        <td class="px-4 py-0.5 text-center text-[24px] font-black text-rose-600 align-middle">${subs.missing}</td>
+                    </tr>`;
+            });
+            document.getElementById('mueangTableBody').innerHTML = mueangHTML;
+
+            const otherRows = mainHosp.filter(d => !d['อำเภอ']?.includes('เมือง')).sort((a,b) => ampRate[b['อำเภอ']] - ampRate[a['อำเภอ']]);
+            let otherHTML = '';
+            let currentAmp = '';
+            otherRows.forEach((d, i) => {
+                const isNew = currentAmp !== d['อำเภอ'];
+                currentAmp = d['อำเภอ'];
+                const subs = isNew ? subStats[d['อำเภอ']] : { total: '"', sent: '"', late: '"', missing: '"' };
+                let ampDisplay = '';
+                if (isNew) {
+                    const r = ampRate[d['อำเภอ']];
+                    const rClass = r >= 80 ? 'bg-emerald-600 text-white' : 'bg-white text-rose-600 border-2 border-rose-500';
+                    ampDisplay = `
+                        <div class="flex items-center gap-2 py-0.5 flex-nowrap whitespace-nowrap overflow-hidden">
+                            <div class="h-10 w-20 bg-white rounded-lg border-2 border-slate-200 flex-shrink-0 shadow-sm"><canvas id="spark-${d['อำเภอ'].replace(/\s+/g, '-')}"></canvas></div>
+                            <span class="font-black text-[15px] text-slate-800 truncate">${d['อำเภอ']}</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded-full font-black shadow-sm ${rClass}">${r.toFixed(0)}%</span>
+                        </div>`;
+                }
+
+                otherHTML += `
+                    <tr class="${getRowBg(d.kpi, d.is_sent)} ${isNew && i!==0 ? 'border-t-[4px] border-slate-300' : ''}">
+                        <td class="px-5 py-0.5 align-middle district-col-cell">${ampDisplay || '<div class="text-center opacity-10 text-2xl font-black">"</div>'}</td>
+                        <td class="px-5 py-0.5 v-divider align-middle">
+                            <span class="mr-3 font-black text-black text-[19px]">${d['สถานพยาบาล']}</span>
+                            <span class="status-badge rounded-lg text-[10px] uppercase inline-block align-middle ${getStatusBadge(d.kpi, d.is_sent)}">${d.kpi || 'ยังไม่ส่ง'}</span>
+                        </td>
+                        <td class="px-4 py-0.5 text-center font-bold text-[20px] align-middle text-slate-700">${subs.total}</td>
+                        <td class="px-4 py-0.5 text-center font-black text-[24px] text-emerald-700 align-middle">${subs.sent}</td>
+                        <td class="px-4 py-0.5 text-center font-black text-[24px] text-orange-600 align-middle">${subs.late}</td>
+                        <td class="px-4 py-0.5 text-center font-black text-[24px] text-rose-600 align-middle">${subs.missing}</td>
+                    </tr>`;
+            });
+            document.getElementById('otherTableBody').innerHTML = otherHTML;
+
+            // Destroy old sparklines
+            if(sparklineCharts.length > 0){
+                sparklineCharts.forEach(c => c.destroy());
+                sparklineCharts = [];
+            }
+
+            // Bar Sparklines (Stock Market Colors)
+            const last5Weeks = allWeeks.slice(-5);
+            [...new Set(otherRows.map(d => d['อำเภอ']))].forEach(amp => {
+                const canvasEl = document.getElementById(`spark-${amp.replace(/\s+/g, '-')}`);
+                if (canvasEl) {
+                    const trend = last5Weeks.map(w => {
+                        const wData = data.filter(d => d['อำเภอ'] === amp && d.week === w);
+                        return wData.length ? (wData.filter(d => d.is_sent).length / wData.length) * 100 : 0;
+                    });
+                    
+                    const c = new Chart(canvasEl, {
+                        type: 'bar', 
+                        data: { 
+                            labels: last5Weeks, 
+                            datasets: [{ 
+                                data: trend, 
+                                backgroundColor: trend.map(v => v >= 80 ? '#10b981' : '#f43f5e'),
+                                borderRadius: 2,
+                                barPercentage: 0.8
+                            }] 
+                        },
+                        options: { 
+                            responsive: true, 
+                            maintainAspectRatio: false, 
+                            plugins: { legend: false, tooltip: false }, 
+                            scales: { x: { display: false }, y: { display: false, min: 0, max: 100 } },
+                            layout: { padding: 0 }
+                        }
+                    });
+                    sparklineCharts.push(c);
+                }
+            });
+
+            // Missing 3 Weeks
+            const last3 = allWeeks.slice(-3);
+            const listEl = document.getElementById('missingListContainer');
+            if (last3.length >= 3) {
+                const missingNow = latestData.filter(d => !d.is_sent);
+                const conMissing = missingNow.filter(h => !data.some(d => d['สถานพยาบาล'] === h['สถานพยาบาล'] && d['อำเภอ'] === h['อำเภอ'] && last3.includes(d.week) && d.is_sent));
+                document.getElementById('missingBadge').innerText = `${conMissing.length} แห่ง`;
+                
+                if (conMissing.length === 0) {
+                    listEl.innerHTML = `<div class="p-10 text-center text-emerald-600 font-black border-4 border-dashed border-emerald-300 rounded-[2rem] bg-white text-xl uppercase">จัดส่งข้อมูลสม่ำเสมอ ยอดเยี่ยม!</div>`;
+                } else {
+                    const group = {};
+                    conMissing.forEach(h => group[h['อำเภอ']] = (group[h['อำเภอ']] || 0) + 1);
+                    const sorted = Object.entries(group).sort((a,b) => b[1]-a[1]);
+                    const renderCol = (arr) => `
+                        <div class="border-2 border-slate-200 rounded-[1.5rem] overflow-hidden bg-white shadow-lg">
+                            <table class="w-full text-left">
+                                <thead class="bg-slate-50 border-b-2"><tr><th class="px-6 py-2.5 font-black text-xs text-slate-500 uppercase">อำเภอ</th><th class="px-6 py-2.5 text-center font-black text-xs text-slate-500">จำนวนหน่วยบริการ</th></tr></thead>
+                                <tbody class="divide-y-2 divide-slate-100 font-black">${arr.map(([a,c]) => `<tr><td class="px-6 py-3 border-l-[10px] border-rose-500 text-[19px]">${a}</td><td class="px-6 py-3 text-center text-rose-600 text-3xl font-black">${c}</td></tr>`).join('')}</tbody>
+                            </table>
+                        </div>`;
+                    const half = Math.ceil(sorted.length / 2);
+                    listEl.innerHTML = `<div class="grid grid-cols-2 gap-8">${renderCol(sorted.slice(0, half))}${sorted.length > half ? renderCol(sorted.slice(half)) : '<div></div>'}</div>`;
+                }
+            } else {
+                listEl.innerHTML = `<div class="p-12 text-center text-slate-400 font-black text-xl italic border-4 border-dashed border-slate-200 rounded-[2rem]">ต้องการข้อมูลย้อนหลัง 3 สัปดาห์</div>`;
+            }
+
+            // History Chart
+            const hist = { on: [], zero: [], late: [], miss: [] };
+            allWeeks.forEach(w => {
+                const wd = data.filter(d => d.week === w);
+                hist.on.push(wd.filter(d => d.kpi?.includes('ทันเวลา>')).length);
+                hist.zero.push(wd.filter(d => d.kpi?.includes('Zero')).length);
+                hist.late.push(wd.filter(d => d.kpi?.includes('ทันเวลา<')).length);
+                hist.miss.push(wd.filter(d => !d.is_sent).length);
+            });
+
+            if (currentCharts.hist) currentCharts.hist.destroy();
+            currentCharts.hist = new Chart(document.getElementById('historyChart'), {
+                type: 'line',
+                data: {
+                    labels: allWeeks.map(w => 'W' + w),
+                    datasets: [
+                        { label: 'ทันเวลา', data: hist.on, borderColor: '#059669', backgroundColor: '#059669', tension: 0.4, fill: false, pointRadius: 5, borderWidth: 4 },
+                        { label: 'Zero', data: hist.zero, borderColor: '#2563eb', backgroundColor: '#2563eb', tension: 0.4, fill: false, pointRadius: 5, borderWidth: 4 },
+                        { label: 'ช้า', data: hist.late, borderColor: '#d97706', backgroundColor: '#d97706', tension: 0.4, borderDash: [8,4], pointRadius: 5, borderWidth: 4 },
+                        { label: 'ไม่ส่ง', data: hist.miss, borderColor: '#e11d48', backgroundColor: '#e11d48', tension: 0.4, fill: false, pointRadius: 5, borderWidth: 4 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { position: 'bottom', labels: { boxWidth: 20, font: { size: 14, weight: '800' }, padding: 20 } } 
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            ticks: { font: { size: 14, weight: '800' }, color: '#334155' },
+                            title: { display: true, text: 'จำนวนหน่วยบริการ (แห่ง)', font: { size: 15, weight: '900', family: 'Prompt' }, color: '#0f172a' }
+                        },
+                        x: { ticks: { font: { size: 14, weight: '800' }, color: '#334155' } }
+                    }
+                }
+            });
+        }
+    </script>
 </body>
 </html>
