@@ -97,6 +97,15 @@
             align-items: center;
             justify-content: center;
         }
+
+        /* AI Section Styles */
+        .ai-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
+        }
     </style>
 </head>
 <body class="pb-6">
@@ -112,13 +121,15 @@
         <!-- Header Section -->
         <header class="bg-white p-6 rounded-[2.5rem] shadow-xl mb-8 border-2 border-blue-100 flex flex-col lg:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-6">
-               <img src="logo.png" alt="MOPH Logo" class="w-20 h-20 object-contain drop-shadow-md">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Ministry_of_Public_Health_Logo_%28Thailand%29.svg/512px-Ministry_of_Public_Health_Logo_%28Thailand%29.svg.png" 
+                     onerror="this.onerror=null; this.src='https://cdn-icons-png.freepik.com/256/3209/3209074.png';"
+                     alt="MOPH Logo" class="w-20 h-20 object-contain drop-shadow-md">
                 <div>
                     <h1 class="text-2xl md:text-3xl font-black text-slate-800 tracking-tight leading-tight">
                         Dashboard ผลการจัดส่งรายงานเฝ้าระวังโรค D506
                     </h1>
                     <div class="flex items-center gap-4 mt-1">
-                        <h2 class="text-xl font-black text-blue-600 uppercase">จังหวัดอุดรธานี</h2>
+                        <h2 id="uiProvinceName" class="text-xl font-black text-blue-600 uppercase">จังหวัด...</h2>
                         <span class="text-slate-300 text-xl font-bold">|</span>
                         <p id="currentWeekRange" class="text-emerald-600 font-black text-lg flex items-center gap-2">
                             <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -152,7 +163,7 @@
 
         <main id="dashboardArea" class="hidden space-y-8">
             
-            <!-- Row 1: Status Cards (Bright & Cheerful) -->
+            <!-- Row 1: Status Cards -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
                 <div class="card-3d c-blue rounded-[1.5rem] p-6 text-white relative overflow-hidden group">
                     <i data-lucide="bar-chart-2" class="absolute -right-6 -bottom-6 w-32 h-32 opacity-20 group-hover:scale-110 transition-transform duration-500"></i>
@@ -177,7 +188,6 @@
                             </div>
                         </div>
                         <h3 id="statOnTime" class="text-4xl font-black my-1 drop-shadow-md">0%</h3>
-                        <!-- เพิ่ม ID กลับคืนมาให้ JavaScript ใช้งานได้ -->
                         <span id="statOnTimeDetail" class="text-[11px] font-black uppercase bg-black/20 px-3 py-1 rounded-lg">ผลงาน 0 / 0 (แห่ง)</span>
                     </div>
                 </div>
@@ -191,7 +201,6 @@
                             </div>
                         </div>
                         <h3 id="statZero" class="text-4xl font-black my-1 drop-shadow-md">0</h3>
-                        <!-- แก้ข้อความเป็น จำนวนหน่วย -->
                         <span class="text-[11px] font-bold bg-white/20 px-3 py-1 rounded-lg">จำนวนหน่วย</span>
                     </div>
                 </div>
@@ -212,7 +221,6 @@
 
             <!-- Main Tables Section -->
             <div class="bg-white rounded-[2rem] shadow-xl border-2 border-blue-50 p-6 md:p-8">
-                
                 <div class="space-y-12">
                     <!-- Part 1: Mueang District -->
                     <section>
@@ -223,7 +231,7 @@
                                 </div>
                                 <div class="flex flex-wrap items-center gap-3">
                                     <h3 class="text-2xl font-black text-slate-800 tracking-tight">สรุปผลการรายงานประจำสัปดาห์</h3>
-                                    <span class="bg-orange-500 text-white px-4 py-1.5 rounded-xl shadow-md text-lg font-black tracking-wide border-2 border-orange-200">อ.เมืองอุดรธานี</span>
+                                    <span id="uiMueangName" class="bg-orange-500 text-white px-4 py-1.5 rounded-xl shadow-md text-lg font-black tracking-wide border-2 border-orange-200">อ.เมือง...</span>
                                 </div>
                             </div>
                             
@@ -238,6 +246,7 @@
                                         <th colspan="2" class="px-5 py-3 text-left v-divider">ชื่อสถานพยาบาลและสถานะรายงาน</th>
                                         <th class="px-2 py-3 col-stats-total">รพ.สต./ศสม.</th>
                                         <th class="px-2 py-3 col-stats-item">ส่งแล้ว</th>
+                                        <th class="px-2 py-3 col-stats-item text-blue-600">Zero Report</th>
                                         <th class="px-2 py-3 col-stats-item text-orange-600">ส่งช้า</th>
                                         <th class="px-2 py-3 col-stats-item text-red-600">ไม่ส่ง</th>
                                     </tr>
@@ -256,13 +265,14 @@
                             </div>
                         </div>
                         <div class="overflow-hidden border-2 border-slate-200 rounded-[1.5rem] bg-white">
-                            <table class="w-full text-left border-collapse min-w-[1000px] table-fixed">
+                            <table class="w-full text-left border-collapse min-w-[1100px] table-fixed">
                                 <thead class="text-slate-700 uppercase tracking-widest text-[11px] font-black">
                                     <tr>
                                         <th class="px-5 py-3 w-[240px] text-left district-col-header">กราฟผลงาน 5W | อำเภอ</th>
                                         <th class="px-5 py-3 v-divider text-left">ชื่อสถานพยาบาลและสถานะรายงาน</th>
                                         <th class="px-2 py-3 col-stats-total">รพ.สต./ศสม.</th>
                                         <th class="px-2 py-3 col-stats-item">ส่งแล้ว</th>
+                                        <th class="px-2 py-3 col-stats-item text-blue-600">Zero Report</th>
                                         <th class="px-2 py-3 col-stats-item text-orange-600">ส่งช้า</th>
                                         <th class="px-2 py-3 col-stats-item text-red-600">ไม่ส่ง</th>
                                     </tr>
@@ -295,8 +305,28 @@
                 </div>
             </div>
 
+            <!-- AI Situation Analysis Section -->
+            <div id="aiAnalysisSection" class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 p-8 rounded-[2.5rem] shadow-xl border-2 border-indigo-100 relative overflow-hidden hidden">
+                <!-- Background decoration -->
+                <i data-lucide="sparkles" class="absolute -right-10 -top-10 w-64 h-64 text-indigo-500 opacity-5"></i>
+                <div class="absolute w-96 h-96 bg-purple-300 rounded-full blur-[100px] opacity-20 -bottom-20 -left-20"></div>
+
+                <div class="relative z-10">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="bg-indigo-600 p-3 rounded-[1rem] shadow-lg shadow-indigo-200">
+                            <i data-lucide="bot" class="w-8 h-8 text-white"></i>
+                        </div>
+                        <h3 class="text-3xl font-black text-indigo-950 tracking-tight">AI วิเคราะห์สถานการณ์ประจำสัปดาห์</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6" id="aiContentContainer">
+                        <!-- Dynamic AI Content will be injected here -->
+                    </div>
+                </div>
+            </div>
+
             <!-- Export Button Area -->
-            <div id="exportButtonArea" class="pt-8 pb-10 flex justify-center no-print">
+            <div id="exportButtonArea" class="pt-4 pb-10 flex justify-center no-print">
                 <button onclick="exportToImage()" class="group flex items-center gap-4 bg-emerald-600 hover:bg-emerald-700 text-white px-12 py-5 rounded-full shadow-2xl transition-all transform active:scale-95 border-b-8 border-emerald-800">
                     <i data-lucide="camera" class="w-8 h-8 group-hover:rotate-6 transition-transform"></i>
                     <span class="text-2xl font-black tracking-tight uppercase">สร้างภาพสรุปผล (Export Image)</span>
@@ -314,6 +344,15 @@
     </div>
 
     <script>
+        // ==========================================
+        // 💡 CONFIGURATION: ตั้งค่าชื่อจังหวัดตรงนี้
+        // ==========================================
+        const CONFIG = {
+            provinceName: "อุดรธานี",           // เปลี่ยนเป็นชื่อจังหวัดที่นำไปใช้
+            mainHospitalKeyword: "อุดรธานี"    // คำที่ต้องการให้ค้นหาในชื่อ รพ. ประจำจังหวัดเพื่อให้อยู่บรรทัดแรก (เช่น "ขอนแก่น", "เลย")
+        };
+        // ==========================================
+
         lucide.createIcons();
         let currentCharts = {};
         let sparklineCharts = [];
@@ -322,6 +361,11 @@
         const csvInput = document.getElementById('csvInput');
         const dashboardArea = document.getElementById('dashboardArea');
         const emptyState = document.getElementById('emptyState');
+        const aiAnalysisSection = document.getElementById('aiAnalysisSection');
+
+        // Apply Configuration to UI
+        document.getElementById('uiProvinceName').innerText = `จังหวัด${CONFIG.provinceName}`;
+        document.getElementById('uiMueangName').innerText = `อ.เมือง${CONFIG.provinceName}`;
 
         dropZone.onclick = () => csvInput.click();
         csvInput.onchange = (e) => handleFile(e.target.files[0]);
@@ -334,6 +378,7 @@
                 complete: (results) => {
                     renderDashboard(results.data);
                     dashboardArea.classList.remove('hidden');
+                    aiAnalysisSection.classList.remove('hidden');
                     emptyState.classList.add('hidden');
                     lucide.createIcons();
                 }
@@ -395,13 +440,19 @@
             const latestData = data.filter(d => d.week === maxWeek);
             const allWeeks = [...new Set(data.map(d => d.week))].sort((a,b) => a-b);
 
-            document.getElementById('dropZone').classList.add('hidden');
-            document.getElementById('weekBadgeContainer').classList.remove('hidden');
-            document.getElementById('displayWeek').innerText = maxWeek;
-            document.getElementById('currentWeekRange').innerHTML = `ข้อมูลสัปดาห์ที่ ${maxWeek}`;
+            const elDropZone = document.getElementById('dropZone');
+            if(elDropZone) elDropZone.classList.add('hidden');
+            
+            const elWeekBadge = document.getElementById('weekBadgeContainer');
+            if(elWeekBadge) elWeekBadge.classList.remove('hidden');
+            
+            const elDisplayWeek = document.getElementById('displayWeek');
+            if(elDisplayWeek) elDisplayWeek.innerText = maxWeek;
+            
+            const elCurrentWeekRange = document.getElementById('currentWeekRange');
+            if(elCurrentWeekRange) elCurrentWeekRange.innerHTML = `ข้อมูลสัปดาห์ที่ ${maxWeek}`;
 
             const getBadgeStyles = (type) => {
-                // ใช้สีสันสดใส
                 if (type.includes('ศูนย์')) return 'bg-purple-600 text-white shadow-md border border-purple-400';
                 if (type.includes('ทั่วไป')) return 'bg-indigo-600 text-white shadow-md border border-indigo-400';
                 if (type.includes('ชุมชน')) return 'bg-cyan-600 text-white shadow-md border border-cyan-400';
@@ -420,8 +471,11 @@
                 `).join('');
             };
 
-            document.getElementById('mueangTypeSummary').innerHTML = renderTypeSummary(latestData.filter(d => d['อำเภอ']?.includes('เมือง')));
-            document.getElementById('otherTypeSummary').innerHTML = renderTypeSummary(latestData.filter(d => !d['อำเภอ']?.includes('เมือง')));
+            const elMueangType = document.getElementById('mueangTypeSummary');
+            if(elMueangType) elMueangType.innerHTML = renderTypeSummary(latestData.filter(d => d['อำเภอ']?.includes('เมือง')));
+            
+            const elOtherType = document.getElementById('otherTypeSummary');
+            if(elOtherType) elOtherType.innerHTML = renderTypeSummary(latestData.filter(d => !d['อำเภอ']?.includes('เมือง')));
 
             const total = latestData.length;
             const sent = latestData.filter(d => d.is_sent).length;
@@ -429,13 +483,23 @@
             const zero = latestData.filter(d => d.kpi?.includes('Zero')).length;
             const missing = total - sent;
 
-            document.getElementById('statRate').innerText = `${((sent/total)*100).toFixed(1)}%`;
-            document.getElementById('statCount').innerText = `${sent}/${total} แห่ง`;
-            document.getElementById('statOnTime').innerText = `${((ontime/total)*100).toFixed(1)}%`;
-            // ใช้ id statOnTimeDetail ที่ถูกเพิ่มกลับมาแล้ว
-            document.getElementById('statOnTimeDetail').innerText = `ผลงาน ${ontime} / ${total} (แห่ง)`;
-            document.getElementById('statZero').innerText = zero;
-            document.getElementById('statMissing').innerText = missing;
+            const elStatRate = document.getElementById('statRate');
+            if(elStatRate) elStatRate.innerText = `${((sent/total)*100).toFixed(1)}%`;
+            
+            const elStatCount = document.getElementById('statCount');
+            if(elStatCount) elStatCount.innerText = `${sent}/${total} แห่ง`;
+            
+            const elStatOnTime = document.getElementById('statOnTime');
+            if(elStatOnTime) elStatOnTime.innerText = `${((ontime/total)*100).toFixed(1)}%`;
+            
+            const elStatOnTimeDetail = document.getElementById('statOnTimeDetail');
+            if(elStatOnTimeDetail) elStatOnTimeDetail.innerText = `ผลงาน ${ontime} / ${total} (แห่ง)`;
+            
+            const elStatZero = document.getElementById('statZero');
+            if(elStatZero) elStatZero.innerText = zero;
+            
+            const elStatMissing = document.getElementById('statMissing');
+            if(elStatMissing) elStatMissing.innerText = missing;
 
             const isSub = d => {
                 const t = d.hosp_type_detail || '';
@@ -449,6 +513,8 @@
                 subStats[amp] = {
                     total: subs.length,
                     sent: subs.filter(d => d.is_sent).length,
+                    ontime: subs.filter(d => d.kpi?.includes('ทันเวลา>')).length,
+                    zero: subs.filter(d => d.kpi?.includes('Zero')).length,
                     late: subs.filter(d => d.kpi?.includes('ทันเวลา<')).length,
                     missing: subs.filter(d => !d.is_sent).length
                 };
@@ -478,16 +544,31 @@
                 return '';
             };
 
-            // Part 1: Mueang (Compact padding + Large font for text)
+            // Part 1: Mueang
             const mueangRows = mainHosp.filter(d => d['อำเภอ']?.includes('เมือง')).sort((a,b) => {
-                const rank = h => h['สถานพยาบาล'].includes('อุดรธานี') ? 1 : 2;
-                return rank(a) - rank(b);
+                // 1. ให้โรงพยาบาลศูนย์ อยู่บนสุดก่อน
+                const isCenterA = (a.hosp_type_detail === 'โรงพยาบาลศูนย์' || a['สถานพยาบาล'].includes(CONFIG.mainHospitalKeyword)) ? 1 : 0;
+                const isCenterB = (b.hosp_type_detail === 'โรงพยาบาลศูนย์' || b['สถานพยาบาล'].includes(CONFIG.mainHospitalKeyword)) ? 1 : 0;
+                
+                if (isCenterA !== isCenterB) return isCenterB - isCenterA; // จัดให้ รพ.ศูนย์ อยู่บรรทัดแรก
+
+                // 2. จึงเรียงตามการส่งรายงาน (ส่งทันเวลา > Zero > ส่งช้า > ไม่ส่ง)
+                const getKpiScore = (item) => {
+                    if (!item.is_sent) return 0; // ไม่ส่ง
+                    if (item.kpi?.includes('ทันเวลา>')) return 4; // ส่งทันเวลา
+                    if (item.kpi?.includes('Zero')) return 3; // Zero Report
+                    if (item.kpi?.includes('ทันเวลา<')) return 2; // ส่งช้า
+                    return 1;
+                };
+
+                return getKpiScore(b) - getKpiScore(a); // เรียงจากคะแนนมากไปน้อย
             });
 
             let mueangHTML = '';
             mueangRows.forEach(d => {
-                const isUdon = d['สถานพยาบาล'].includes('อุดรธานี');
-                const subs = isUdon ? subStats[d['อำเภอ']] : { total: '-', sent: '-', late: '-', missing: '-' };
+                // แสดงผลงาน รพ.สต. / ศสม. ในแถวของ hosp_type_detail = โรงพยาบาลศูนย์
+                const isCenter = (d.hosp_type_detail === 'โรงพยาบาลศูนย์' || d['สถานพยาบาล'].includes(CONFIG.mainHospitalKeyword)); 
+                const subs = isCenter ? subStats[d['อำเภอ']] : { total: '-', ontime: '-', zero: '-', late: '-', missing: '-' };
                 mueangHTML += `
                     <tr class="${getRowBg(d.kpi, d.is_sent)}">
                         <td colspan="2" class="px-5 py-0.5 v-divider align-middle">
@@ -495,20 +576,23 @@
                             <span class="status-badge rounded-lg text-[10px] uppercase inline-block align-middle ${getStatusBadge(d.kpi, d.is_sent)}">${d.kpi || 'ยังไม่ส่ง'}</span>
                         </td>
                         <td class="px-4 py-0.5 text-center text-[20px] font-bold align-middle text-slate-700">${subs.total}</td>
-                        <td class="px-4 py-0.5 text-center text-[24px] font-black text-emerald-700 align-middle">${subs.sent}</td>
+                        <td class="px-4 py-0.5 text-center text-[24px] font-black text-emerald-700 align-middle">${subs.ontime}</td>
+                        <td class="px-4 py-0.5 text-center text-[24px] font-black text-blue-600 align-middle">${subs.zero}</td>
                         <td class="px-4 py-0.5 text-center text-[24px] font-black text-orange-600 align-middle">${subs.late}</td>
                         <td class="px-4 py-0.5 text-center text-[24px] font-black text-rose-600 align-middle">${subs.missing}</td>
                     </tr>`;
             });
-            document.getElementById('mueangTableBody').innerHTML = mueangHTML;
+            const elMueangTableBody = document.getElementById('mueangTableBody');
+            if(elMueangTableBody) elMueangTableBody.innerHTML = mueangHTML;
 
+            // Part 2: Others
             const otherRows = mainHosp.filter(d => !d['อำเภอ']?.includes('เมือง')).sort((a,b) => ampRate[b['อำเภอ']] - ampRate[a['อำเภอ']]);
             let otherHTML = '';
             let currentAmp = '';
             otherRows.forEach((d, i) => {
                 const isNew = currentAmp !== d['อำเภอ'];
                 currentAmp = d['อำเภอ'];
-                const subs = isNew ? subStats[d['อำเภอ']] : { total: '"', sent: '"', late: '"', missing: '"' };
+                const subs = isNew ? subStats[d['อำเภอ']] : { total: '"', ontime: '"', zero: '"', late: '"', missing: '"' };
                 let ampDisplay = '';
                 if (isNew) {
                     const r = ampRate[d['อำเภอ']];
@@ -529,12 +613,14 @@
                             <span class="status-badge rounded-lg text-[10px] uppercase inline-block align-middle ${getStatusBadge(d.kpi, d.is_sent)}">${d.kpi || 'ยังไม่ส่ง'}</span>
                         </td>
                         <td class="px-4 py-0.5 text-center font-bold text-[20px] align-middle text-slate-700">${subs.total}</td>
-                        <td class="px-4 py-0.5 text-center font-black text-[24px] text-emerald-700 align-middle">${subs.sent}</td>
+                        <td class="px-4 py-0.5 text-center font-black text-[24px] text-emerald-700 align-middle">${subs.ontime}</td>
+                        <td class="px-4 py-0.5 text-center font-black text-[24px] text-blue-600 align-middle">${subs.zero}</td>
                         <td class="px-4 py-0.5 text-center font-black text-[24px] text-orange-600 align-middle">${subs.late}</td>
                         <td class="px-4 py-0.5 text-center font-black text-[24px] text-rose-600 align-middle">${subs.missing}</td>
                     </tr>`;
             });
-            document.getElementById('otherTableBody').innerHTML = otherHTML;
+            const elOtherTableBody = document.getElementById('otherTableBody');
+            if(elOtherTableBody) elOtherTableBody.innerHTML = otherHTML;
 
             // Destroy old sparklines
             if(sparklineCharts.length > 0){
@@ -578,13 +664,15 @@
             // Missing 3 Weeks
             const last3 = allWeeks.slice(-3);
             const listEl = document.getElementById('missingListContainer');
+            const missingBadge = document.getElementById('missingBadge');
+            
             if (last3.length >= 3) {
                 const missingNow = latestData.filter(d => !d.is_sent);
                 const conMissing = missingNow.filter(h => !data.some(d => d['สถานพยาบาล'] === h['สถานพยาบาล'] && d['อำเภอ'] === h['อำเภอ'] && last3.includes(d.week) && d.is_sent));
-                document.getElementById('missingBadge').innerText = `${conMissing.length} แห่ง`;
+                if(missingBadge) missingBadge.innerText = `${conMissing.length} แห่ง`;
                 
                 if (conMissing.length === 0) {
-                    listEl.innerHTML = `<div class="p-10 text-center text-emerald-600 font-black border-4 border-dashed border-emerald-300 rounded-[2rem] bg-white text-xl uppercase">จัดส่งข้อมูลสม่ำเสมอ ยอดเยี่ยม!</div>`;
+                    if(listEl) listEl.innerHTML = `<div class="p-10 text-center text-emerald-600 font-black border-4 border-dashed border-emerald-300 rounded-[2rem] bg-white text-xl uppercase">จัดส่งข้อมูลสม่ำเสมอ ยอดเยี่ยม!</div>`;
                 } else {
                     const group = {};
                     conMissing.forEach(h => group[h['อำเภอ']] = (group[h['อำเภอ']] || 0) + 1);
@@ -597,10 +685,10 @@
                             </table>
                         </div>`;
                     const half = Math.ceil(sorted.length / 2);
-                    listEl.innerHTML = `<div class="grid grid-cols-2 gap-8">${renderCol(sorted.slice(0, half))}${sorted.length > half ? renderCol(sorted.slice(half)) : '<div></div>'}</div>`;
+                    if(listEl) listEl.innerHTML = `<div class="grid grid-cols-2 gap-8">${renderCol(sorted.slice(0, half))}${sorted.length > half ? renderCol(sorted.slice(half)) : '<div></div>'}</div>`;
                 }
             } else {
-                listEl.innerHTML = `<div class="p-12 text-center text-slate-400 font-black text-xl italic border-4 border-dashed border-slate-200 rounded-[2rem]">ต้องการข้อมูลย้อนหลัง 3 สัปดาห์</div>`;
+                if(listEl) listEl.innerHTML = `<div class="p-12 text-center text-slate-400 font-black text-xl italic border-4 border-dashed border-slate-200 rounded-[2rem]">ต้องการข้อมูลย้อนหลัง 3 สัปดาห์</div>`;
             }
 
             // History Chart
@@ -614,32 +702,212 @@
             });
 
             if (currentCharts.hist) currentCharts.hist.destroy();
-            currentCharts.hist = new Chart(document.getElementById('historyChart'), {
-                type: 'line',
-                data: {
-                    labels: allWeeks.map(w => 'W' + w),
-                    datasets: [
-                        { label: 'ทันเวลา', data: hist.on, borderColor: '#059669', backgroundColor: '#059669', tension: 0.4, fill: false, pointRadius: 5, borderWidth: 4 },
-                        { label: 'Zero', data: hist.zero, borderColor: '#2563eb', backgroundColor: '#2563eb', tension: 0.4, fill: false, pointRadius: 5, borderWidth: 4 },
-                        { label: 'ช้า', data: hist.late, borderColor: '#d97706', backgroundColor: '#d97706', tension: 0.4, borderDash: [8,4], pointRadius: 5, borderWidth: 4 },
-                        { label: 'ไม่ส่ง', data: hist.miss, borderColor: '#e11d48', backgroundColor: '#e11d48', tension: 0.4, fill: false, pointRadius: 5, borderWidth: 4 }
-                    ]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { 
-                        legend: { position: 'bottom', labels: { boxWidth: 20, font: { size: 14, weight: '800' }, padding: 20 } } 
+            const histCanvas = document.getElementById('historyChart');
+            if(histCanvas) {
+                currentCharts.hist = new Chart(histCanvas, {
+                    type: 'line',
+                    data: {
+                        labels: allWeeks.map(w => 'W' + w),
+                        datasets: [
+                            { label: 'ทันเวลา', data: hist.on, borderColor: '#059669', backgroundColor: '#059669', tension: 0.4, fill: false, pointRadius: 5, borderWidth: 4 },
+                            { label: 'Zero', data: hist.zero, borderColor: '#2563eb', backgroundColor: '#2563eb', tension: 0.4, fill: false, pointRadius: 5, borderWidth: 4 },
+                            { label: 'ช้า', data: hist.late, borderColor: '#d97706', backgroundColor: '#d97706', tension: 0.4, borderDash: [8,4], pointRadius: 5, borderWidth: 4 },
+                            { label: 'ไม่ส่ง', data: hist.miss, borderColor: '#e11d48', backgroundColor: '#e11d48', tension: 0.4, fill: false, pointRadius: 5, borderWidth: 4 }
+                        ]
                     },
-                    scales: {
-                        y: { 
-                            beginAtZero: true,
-                            ticks: { font: { size: 14, weight: '800' }, color: '#334155' },
-                            title: { display: true, text: 'จำนวนหน่วยบริการ (แห่ง)', font: { size: 15, weight: '900', family: 'Prompt' }, color: '#0f172a' }
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: { 
+                            legend: { position: 'bottom', labels: { boxWidth: 20, font: { size: 14, weight: '800' }, padding: 20 } } 
                         },
-                        x: { ticks: { font: { size: 14, weight: '800' }, color: '#334155' } }
+                        scales: {
+                            y: { 
+                                beginAtZero: true,
+                                ticks: { font: { size: 14, weight: '800' }, color: '#334155' },
+                                title: { display: true, text: 'จำนวนหน่วยบริการ (แห่ง)', font: { size: 15, weight: '900', family: 'Prompt' }, color: '#0f172a' }
+                            },
+                            x: { ticks: { font: { size: 14, weight: '800' }, color: '#334155' } }
+                        }
                     }
-                }
+                });
+            }
+
+            // ==========================================
+            // AI Analysis Logic Generation
+            // ==========================================
+            generateAIAnalysis(data, maxWeek, allWeeks);
+        }
+
+        function generateAIAnalysis(data, currentWeek, allWeeks) {
+            const aiContainer = document.getElementById('aiContentContainer');
+            if (!aiContainer) return;
+
+            // 1. เปรียบเทียบผลงานกับสัปดาห์ก่อนหน้า (vs Previous Week)
+            let compHtml = '';
+            if (allWeeks.length >= 2) {
+                const prevWeek = allWeeks[allWeeks.length - 2];
+                const currData = data.filter(d => d.week === currentWeek);
+                const prevData = data.filter(d => d.week === prevWeek);
+
+                const getRate = (dataset) => {
+                    const sent = dataset.filter(d => d.is_sent).length;
+                    return dataset.length > 0 ? (sent / dataset.length) * 100 : 0;
+                };
+                const getOntimeRate = (dataset) => {
+                    const ontime = dataset.filter(d => d.kpi?.includes('ทันเวลา>')).length;
+                    return dataset.length > 0 ? (ontime / dataset.length) * 100 : 0;
+                };
+
+                const currRate = getRate(currData);
+                const prevRate = getRate(prevData);
+                const diffRate = (currRate - prevRate).toFixed(1);
+                
+                const currOntime = getOntimeRate(currData);
+                const prevOntime = getOntimeRate(prevData);
+                const diffOntime = (currOntime - prevOntime).toFixed(1);
+
+                const getTrendStatus = (diff) => {
+                    if (diff > 0) return { color: 'text-emerald-600', bg: 'bg-emerald-100', icon: 'trending-up', text: `+${diff}% ดีขึ้น` };
+                    if (diff < 0) return { color: 'text-rose-600', bg: 'bg-rose-100', icon: 'trending-down', text: `${diff}% ลดลง` };
+                    return { color: 'text-slate-600', bg: 'bg-slate-100', icon: 'minus', text: 'คงที่' };
+                };
+
+                const sentTrend = getTrendStatus(diffRate);
+                const ontimeTrend = getTrendStatus(diffOntime);
+
+                compHtml = `
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between bg-white/50 p-4 rounded-xl border border-indigo-50">
+                            <span class="font-bold text-slate-700">ภาพรวมการส่งข้อมูล</span>
+                            <div class="flex items-center gap-2 ${sentTrend.color} ${sentTrend.bg} px-3 py-1 rounded-full font-black text-sm">
+                                <i data-lucide="${sentTrend.icon}" class="w-4 h-4"></i> ${sentTrend.text}
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between bg-white/50 p-4 rounded-xl border border-indigo-50">
+                            <span class="font-bold text-slate-700">อัตราการส่งทันเวลา</span>
+                            <div class="flex items-center gap-2 ${ontimeTrend.color} ${ontimeTrend.bg} px-3 py-1 rounded-full font-black text-sm">
+                                <i data-lucide="${ontimeTrend.icon}" class="w-4 h-4"></i> ${ontimeTrend.text}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                compHtml = `<div class="p-4 text-center font-bold text-slate-400">ต้องมีข้อมูลอย่างน้อย 2 สัปดาห์</div>`;
+            }
+
+            // 2. อำเภอที่มีการกำกับติดตามการส่งข้อมูลดี (Top Districts in current week)
+            let distHtml = '';
+            const currData = data.filter(d => d.week === currentWeek);
+            const distMap = {};
+            currData.forEach(d => {
+                if(!d['อำเภอ']) return;
+                if(!distMap[d['อำเภอ']]) distMap[d['อำเภอ']] = { total: 0, sent: 0, ontime: 0 };
+                distMap[d['อำเภอ']].total++;
+                if(d.is_sent) distMap[d['อำเภอ']].sent++;
+                if(d.kpi?.includes('ทันเวลา>')) distMap[d['อำเภอ']].ontime++;
             });
+
+            // Rank by On-time rate, then by sent rate
+            const topDistricts = Object.entries(distMap)
+                .map(([name, stats]) => ({
+                    name,
+                    sentRate: (stats.sent / stats.total) * 100,
+                    ontimeRate: (stats.ontime / stats.total) * 100
+                }))
+                .sort((a,b) => {
+                    if (b.ontimeRate !== a.ontimeRate) return b.ontimeRate - a.ontimeRate;
+                    return b.sentRate - a.sentRate;
+                })
+                .slice(0, 3); // Top 3
+
+            if (topDistricts.length > 0) {
+                distHtml = topDistricts.map((d, index) => {
+                    const medals = ['text-amber-500', 'text-slate-400', 'text-amber-700']; // Gold, Silver, Bronze
+                    return `
+                    <div class="flex items-center justify-between bg-white/50 p-3 rounded-xl border border-indigo-50 mb-2">
+                        <div class="flex items-center gap-3">
+                            <span class="font-black ${medals[index] || 'text-slate-400'} text-lg">#${index+1}</span>
+                            <span class="font-black text-slate-800">${d.name}</span>
+                        </div>
+                        <span class="font-black text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-lg text-sm">${d.ontimeRate.toFixed(0)}% ทันเวลา</span>
+                    </div>`;
+                }).join('');
+            } else {
+                distHtml = `<div class="p-4 text-center font-bold text-slate-400">ไม่มีข้อมูลอำเภอ</div>`;
+            }
+
+            // 3. หน่วยบริการที่มีความต่อเนื่อง ทันเวลาดีเยี่ยม (100% on time for last up to 3 weeks)
+            let hospHtml = '';
+            const checkWeeks = allWeeks.slice(-3); // Check up to last 3 weeks
+            if (checkWeeks.length > 0) {
+                const hospMap = {};
+                // filter data only for checkWeeks
+                data.filter(d => checkWeeks.includes(d.week) && d['สถานพยาบาล']).forEach(d => {
+                    if (!hospMap[d['สถานพยาบาล']]) hospMap[d['สถานพยาบาล']] = { totalCheck: 0, ontimeCheck: 0 };
+                    hospMap[d['สถานพยาบาล']].totalCheck++;
+                    if (d.kpi?.includes('ทันเวลา>')) hospMap[d['สถานพยาบาล']].ontimeCheck++;
+                });
+
+                // Find hospitals that have totalCheck == checkWeeks.length AND ontimeCheck == totalCheck
+                const excellentHosps = Object.entries(hospMap)
+                    .filter(([name, stats]) => stats.totalCheck === checkWeeks.length && stats.ontimeCheck === stats.totalCheck)
+                    .map(([name]) => name);
+
+                if (excellentHosps.length > 0) {
+                    // Randomly pick up to 4 to display, or show first 4 to avoid huge lists
+                    const displayHosps = excellentHosps.slice(0, 4);
+                    hospHtml = `<div class="space-y-2">`;
+                    hospHtml += `<p class="text-sm font-bold text-indigo-700 mb-2">ผ่านเกณฑ์ ${excellentHosps.length} แห่ง (สุ่มแสดงผล)</p>`;
+                    displayHosps.forEach(h => {
+                        hospHtml += `
+                        <div class="flex items-center gap-3 bg-white/50 p-2.5 rounded-xl border border-indigo-50">
+                            <i data-lucide="award" class="w-5 h-5 text-amber-500"></i>
+                            <span class="font-bold text-slate-800 text-sm truncate">${h}</span>
+                        </div>`;
+                    });
+                    hospHtml += `</div>`;
+                } else {
+                    hospHtml = `<div class="p-4 text-center font-bold text-slate-500 bg-white/50 rounded-xl">ไม่มีหน่วยบริการที่ส่งทันเวลา 100% ต่อเนื่อง</div>`;
+                }
+            } else {
+                hospHtml = `<div class="p-4 text-center font-bold text-slate-400">ต้องมีข้อมูลอย่างน้อย 1 สัปดาห์</div>`;
+            }
+
+            // Inject to DOM
+            aiContainer.innerHTML = `
+                <!-- Card 1 -->
+                <div class="ai-card p-6 rounded-[1.5rem]">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-blue-100 p-2 rounded-lg text-blue-600"><i data-lucide="bar-chart" class="w-6 h-6"></i></div>
+                        <h4 class="font-black text-xl text-slate-800">เปรียบเทียบผลงาน</h4>
+                    </div>
+                    <p class="text-sm font-bold text-slate-500 mb-4">เทียบกับสัปดาห์ที่ ${allWeeks.length >= 2 ? allWeeks[allWeeks.length - 2] : '--'}</p>
+                    ${compHtml}
+                </div>
+
+                <!-- Card 2 -->
+                <div class="ai-card p-6 rounded-[1.5rem]">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-emerald-100 p-2 rounded-lg text-emerald-600"><i data-lucide="map-pin" class="w-6 h-6"></i></div>
+                        <h4 class="font-black text-xl text-slate-800">อำเภอกำกับติดตามยอดเยี่ยม</h4>
+                    </div>
+                    <p class="text-sm font-bold text-slate-500 mb-4">พิจารณาจากการส่งทันเวลาสูงสุด (W${currentWeek})</p>
+                    ${distHtml}
+                </div>
+
+                <!-- Card 3 -->
+                <div class="ai-card p-6 rounded-[1.5rem]">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-amber-100 p-2 rounded-lg text-amber-600"><i data-lucide="star" class="w-6 h-6"></i></div>
+                        <h4 class="font-black text-xl text-slate-800">ดาวเด่นความต่อเนื่อง</h4>
+                    </div>
+                    <p class="text-sm font-bold text-slate-500 mb-4">ส่งทันเวลา 100% (ประเมินย้อนหลัง ${checkWeeks.length} สัปดาห์)</p>
+                    ${hospHtml}
+                </div>
+            `;
+            
+            // Re-initialize icons for newly added HTML
+            lucide.createIcons();
         }
     </script>
 </body>
